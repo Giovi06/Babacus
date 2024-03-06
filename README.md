@@ -21,8 +21,14 @@
 
 | US-№ | Verbindlichkeit | Typ  | Beschreibung                       |
 | ---- | --------------- | ---- | ---------------------------------- |
-| 1    |                 |      | Als ein 🤷‍♂️ möchte ich 🤷‍♂️, damit 🤷‍♂️ |
-| ...  |                 |      |                                    |
+| 1    |  Muss               | Funktional     | Als ein Benutzer möchte ich eine Möglichkeit haben, Verkäufe oder Einkäufe einzutragem, um meine Buchhaltung zu führen.  |
+| 2  |                 |      |                                    |
+| 3  |                 |      |                                    |
+| 4  |                 |      |                                    |
+| 5  |                 |      |                                    |
+| 6  |                 |      |                                    |
+| 7  |                 |      |                                    |
+
 
 ✍️ Jede User Story hat eine ganzzahlige Nummer (1, 2, 3 etc.), eine Verbindlichkeit (Muss oder Kann?), und einen Typ (Funktional, Qualität, Rand). Die User Story selber hat folgende Form: *Als ein 🤷‍♂️ möchte ich 🤷‍♂️, damit 🤷‍♂️*.
 
