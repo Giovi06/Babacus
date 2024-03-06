@@ -18,6 +18,8 @@ Unser Projekt beinhaltet  eine Webanwendung, die es einem Unternehmen oder Kunde
 
 ✍️ Erklären Sie genauer in 50 bis 100 Wörtern, was genau Sie in diesem Projekt erreichen möchten, und was Sie dabei zu lernen hoffen.
 
+
+
 ### 1.2 User Stories
 
 | US-№ | Verbindlichkeit | Typ  | Beschreibung                       |
