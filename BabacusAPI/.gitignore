@@ -1,0 +1,25 @@
+# Ignore Visual Studio files
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Ignore build output
+bin/
+obj/
+
+# Ignore NuGet packages
+*.nuget.props
+*.nuget.targets
+packages/
+
+# Ignore build artifacts
+*.cache
+*.log
+*.vspscc
+*.vssscc
+*.bak
+*.swp
+*.*~
+*.DS_Store
