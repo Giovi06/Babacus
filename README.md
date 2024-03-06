@@ -13,9 +13,12 @@
 
 ### 1.1 Ihr Projekt
 
-✍️ Beschreiben Sie Ihr Projekt in einem griffigen Satz.
+
+Unser Projekt beinhaltet  eine Webanwendung, die es einem Unternehmen oder Kunden erlaubt, Verkäufe oder Einkäufe in eine Anwendung (Babacus) einzutragen und Bilanzen anzufordern.
 
 ✍️ Erklären Sie genauer in 50 bis 100 Wörtern, was genau Sie in diesem Projekt erreichen möchten, und was Sie dabei zu lernen hoffen.
+
+
 
 ### 1.2 User Stories
 
