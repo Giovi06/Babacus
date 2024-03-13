@@ -1,22 +1,19 @@
-/* Allgemeine Formatierung */
 body {
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
-  background-color: #f0f0f0;
+  background-color: #f5f5dc;
 }
 
-/* Header-Stil */
 header {
-  background-color: #333;
+  background-color: #d2b48c;
   color: #fff;
   padding: 10px;
   text-align: center;
 }
 
-/* Navigationsmenü */
 nav {
-  background-color: #555;
+  background-color: #bc8f8f;
   color: #fff;
   padding: 10px;
   text-align: center;
@@ -28,22 +25,23 @@ nav a {
   margin: 0 10px;
 }
 
-/* Hauptinhalt */
+nav a:hover {
+  text-decoration: underline;
+}
+
 main {
   padding: 20px;
 }
 
-/* Fußzeile */
 footer {
-  background-color: #333;
+  background-color: #d2b48c;
   color: #fff;
   padding: 10px;
   text-align: center;
 }
 
-/* Links */
 a {
-  color: #007bff;
+  color: #8b4513;
   text-decoration: none;
 }
 
