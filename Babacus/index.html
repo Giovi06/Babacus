@@ -14,6 +14,9 @@
       <label for="product_id">Product ID:</label><br />
       <input type="text" id="product_id" name="product_id" /><br />
 
+      <label for = "quantity">Quantity:</label><br/>
+      <input type="number" min="1" id="quantity" name="quantity"/><br/>
+
       <label for="payment_method">Zahlungsmethode</label><br />
       <select id="payment_method" name="payment_method">
         <option value="Bar">Bar</option>
@@ -33,6 +36,7 @@
 
       <input type="submit" value="Submit" />
     </form>
+    
     <div id="confirmation">
       <ul id="confirmation-list"></ul>
     </div>
