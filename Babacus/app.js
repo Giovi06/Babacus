@@ -13,8 +13,16 @@ document.addEventListener("DOMContentLoaded", function () {
     const listItem = document.createElement("li");
     listItem.textContent = `Product ID: ${product_id}, Quantity: ${quantity}, Payment method: ${payment_method}, Trade method: ${trademethod} `;
 
-    confirmationList.appendChild(listItem);
+    const deleteButton = document.createElement("button");
+    deleteButton.textContent = "Delete";
+    deleteButton.addEventListener("click", () => {
+    listItem.remove();
 
+
+    
+  });
+  confirmationList.appendChild(listItem);
+  listItem.appendChild(deleteButton);
     document.querySelector("#confirmation").style.display = "block";
     form.reset();
   });
