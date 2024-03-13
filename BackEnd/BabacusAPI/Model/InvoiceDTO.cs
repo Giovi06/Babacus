@@ -5,7 +5,13 @@ public class InvoiceDTO
     public string? SupplierId { get; set; }
     public required DateTime CreatedDate { get; set; }
     public int? DaysTillDueDate { get; set; }
-    public DateTime DueDate { get; set; }
-    public decimal Amount { get; set; }
+    public DateTime DueDate
+    {
+        get { return this.CreatedDate.AddDays(this.DaysTillDueDate ?? 30); }
+        set { }
+    }
+
+    public required decimal Amount { get; set; }
+    public required bool Payed { get; set; }
 
 }

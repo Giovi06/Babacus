@@ -2,13 +2,15 @@ using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
 using BabacusAPI.Model;
+using Microsoft.EntityFrameworkCore;
 
 namespace BabacusAPI.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class ProductController : ControllerBase 
+    public class ProductController : ControllerBase
     {
+        private readonly BabacusDb _context;
         public ProductController(BabacusDb context)
         {
             this._context = context;
@@ -16,11 +18,12 @@ namespace BabacusAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ProductDTO>>> GetAllProducts()
         {
-            var products = await context.Products.Select(p => ProductToProductDTO(p)).ToListAsync();
+            var products = await _context.Products.Select(p => ProductToProductDTO(p)).ToListAsync();
             return Ok(products);
         }
 
-        [HttpGet("{id}")]
+
+        [HttpGet]
         public IActionResult GetProductById(int id)
         {
             var product = product.FirstOrDefault(p => p.Id == id);
@@ -85,6 +88,10 @@ namespace BabacusAPI.Controllers
             }
             product.Remove(product);
             return NoContent();
+        }
+        private object ProductToProductDTO(Product p)
+        {
+            throw new NotImplementedException();
         }
     }
 }
