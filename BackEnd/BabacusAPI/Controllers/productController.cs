@@ -1,25 +1,29 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
-using BabacusAPI.Models;
+using BabacusAPI.Model;
 
 namespace BabacusAPI.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class ProductController : ControllerBase
+    public class ProductController : ControllerBase 
     {
-
-        [HttpGet]
-        public IActionResult GetAllProducts()
+        public ProductController(BabacusDb context)
         {
-            return Ok(_products);
+            this._context = context;
+        }
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<ProductDTO>>> GetAllProducts()
+        {
+            var products = await context.Products.Select(p => ProductToProductDTO(p)).ToListAsync();
+            return Ok(products);
         }
 
         [HttpGet("{id}")]
         public IActionResult GetProductById(int id)
         {
-            var product = _products.FirstOrDefault(p => p.Id == id);
+            var product = product.FirstOrDefault(p => p.Id == id);
             if (product == null)
             {
                 return NotFound();
@@ -30,26 +34,26 @@ namespace BabacusAPI.Controllers
         [HttpPost]
         public IActionResult AddProduct(Product product)
         {
-            _products.Add(product);
+            product.Add(product);
             return CreatedAtAction(nameof(GetProductById), new { id = product.Id }, product);
         }
         [HttpPost]
         public IActionResult NewBoughtProduct(Product product)
         {
-            _products.Add(product);
+            product.Add(product);
             return CreatedAtAction(nameof(GetProductById), new { id = product.Id }, product);
         }
         [HttpPost]
         public IActionResult NewSoldProduct(Product product)
         {
-            _products.Add(product);
+            product.Add(product);
             return CreatedAtAction(nameof(GetProductById), new { id = product.Id }, product);
         }
 
         [HttpPut("{id}")]
         public IActionResult UpdateProductInfo(int id, Product updatedProduct)
         {
-            var product = _products.FirstOrDefault(p => p.Id == id);
+            var product = product.FirstOrDefault(p => p.Id == id);
             if (product == null)
             {
                 return NotFound();
@@ -63,7 +67,7 @@ namespace BabacusAPI.Controllers
         [HttpPut("{id}")]
         public IActionResult UpdateProductStock(int id, Product updatedProduct)
         {
-            var product = _products.FirstOrDefault(p => p.Id == id);
+            var product = product.FirstOrDefault(p => p.Id == id);
             if (product == null)
             {
                 return NotFound();
@@ -74,12 +78,12 @@ namespace BabacusAPI.Controllers
         [HttpDelete("{id}")]
         public IActionResult DeleteProduct(int id)
         {
-            var product = _products.FirstOrDefault(p => p.Id == id);
+            var product = product.FirstOrDefault(p => p.Id == id);
             if (product == null)
             {
                 return NotFound();
             }
-            _products.Remove(product);
+            product.Remove(product);
             return NoContent();
         }
     }
