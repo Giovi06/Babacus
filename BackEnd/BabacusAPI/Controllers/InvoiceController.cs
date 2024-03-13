@@ -48,7 +48,7 @@ namespace BabacusAPI.Controllers
                 return BadRequest("InvoiceDTO is null.");
             }
 
-            if (!(invoiceDTO.DaysTillDueDate > 1) /*|| !(invoiceDTO.DueDate > invoiceDTO.CreatedDate) */ || !(invoiceDTO.Amount > 0)) // Days till due date should be checked of overdue by negative value
+            if (!(invoiceDTO.DueDate > invoiceDTO.CreatedDate) || !(invoiceDTO.Amount > 0)) // Days till due date should be checked of overdue by negative value
             {
                 return BadRequest("Invalid invoice data.");
             }
