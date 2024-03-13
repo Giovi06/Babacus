@@ -11,21 +11,22 @@ document.addEventListener("DOMContentLoaded", function () {
     const listItem = document.createElement("li");
     listItem.textContent = `Product ID: ${product_id}, Payment method: ${payment_method}`;
 
+    const deleteButton = document.createElement("button");
+    deleteButton.textContent = "Delete";
+    deleteButton.addEventListener("click", () => {
+      listItem.remove();
+    });
+
+    listItem.appendChild(deleteButton);
     confirmationList.appendChild(listItem);
 
     document.querySelector("#confirmation").style.display = "block";
     form.reset();
+
+    sendDataToServer(product_id, payment_method);
   });
-});
-document.addEventListener("DOMContentLoaded", function () {
-  const form = document.querySelector("#productForm");
 
-  form.addEventListener("submit", (event) => {
-    event.preventDefault();
-
-    const product_id = document.querySelector("#product_id").value;
-    const payment_method = document.querySelector("#payment_method").value;
-
+  function sendDataToServer(product_id, payment_method) {
     const data = {
       product_id: product_id,
       payment_method: payment_method,
@@ -39,18 +40,11 @@ document.addEventListener("DOMContentLoaded", function () {
       body: JSON.stringify(data),
     })
       .then((response) => response.json())
-      .then((data) => {
-        const confirmationList = document.querySelector("#confirmation-list");
-        const listItem = document.createElement("li");
-        listItem.textContent = `Product ID: ${product_id}, Payment method: ${payment_method}`;
-        confirmationList.appendChild(listItem);
-        document.querySelector("#confirmation").style.display = "block";
-        form.reset();
+      .then(() => {
+        // Optional: Handle server response if needed
       })
       .catch((error) => {
         console.error("Error:", error);
       });
-  });
+  }
 });
-
-
