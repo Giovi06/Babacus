@@ -1,10 +1,10 @@
 // app.tsx
-import React from "react";
+import { useState } from "react";
 
 interface Item {
   productId: string;
   quantity: number;
-  paymentMethod: "bar" | "karte";
+  paymentMethod: "bar" | "karte" | "Auf Rechnung";
   transactionType: "Einkauf" | "Verkauf";
 }
 
@@ -68,6 +68,7 @@ const MyComponent: React.FC = () => {
             >
               <option value="bar">Bar</option>
               <option value="karte">Karte</option>
+              <option value ="Auf Rechnung"> Auf Rechnung</option>
             </select>
           </label>
         </div>
