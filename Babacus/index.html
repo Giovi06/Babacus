@@ -9,10 +9,12 @@
   </head>
   <body>
     <h1>Babacus</h1>
-    <h2>Produkt ID und Zahlungsmethode eingeben.</h2>
     <form action="/submit_payment" method="post" id="productForm">
       <label for="product_id">Product ID:</label><br />
       <input type="text" id="product_id" name="product_id" /><br />
+
+      <label for="quantity">Quantity:</label><br />
+      <input type="number" min="1" id="quantity" name="quantity" /><br />
 
       <label for="payment_method">Zahlungsmethode</label><br />
       <select id="payment_method" name="payment_method">
@@ -20,10 +22,19 @@
         <option value="Karte">Karte</option>
         <option value="Rechnung">Rechnung</option>
       </select>
+
+      <br />
+      <label for="trademethod">Einkauf oder Verkauf </label><br />
+      <select id="trademethod" name="trademethod">
+        <option value="sale">Verkauf</option>
+        <option value="purchase">Einkauf</option>
+      </select>
+
       <br />
 
       <input type="submit" value="Submit" />
     </form>
+
     <div id="confirmation">
       <ul id="confirmation-list"></ul>
     </div>
