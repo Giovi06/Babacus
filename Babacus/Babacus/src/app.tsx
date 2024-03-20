@@ -1,32 +1,93 @@
-import { useState } from 'preact/hooks'
-import preactLogo from './assets/preact.svg'
-import './app.css'
+// app.tsx
+import React from "react";
 
-export function App() {
-  const [count, setCount] = useState(0)
+interface Item {
+  productId: string;
+  quantity: number;
+  paymentMethod: "bar" | "karte";
+  transactionType: "Einkauf" | "Verkauf";
+}
+
+const MyComponent: React.FC = () => {
+  const [item, setItem] = useState<Item>({
+    productId: "",
+    quantity: 0,
+    paymentMethod: "bar",
+    transactionType: "Einkauf",
+  });
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    const { name, value } = e.target;
+    setItem((prevItem) => ({
+      ...prevItem,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log("Item:", item);
+    // Hier kannst du die Logik zum Speichern des Items implementieren
+  };
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" class="logo" alt="Vite logo" />
-        </a>
-        <a href="https://preactjs.com" target="_blank">
-          <img src={preactLogo} class="logo preact" alt="Preact logo" />
-        </a>
-      </div>
-      <h1>Vite + Preact</h1>
-      <div class="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/app.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p class="read-the-docs">
-        Click on the Vite and Preact logos to learn more
-      </p>
-    </>
-  )
-}
+    <div>
+      <h1>Meine Anwendung</h1>
+      <form onSubmit={handleSubmit}>
+        <div>
+          <label>
+            Produkt ID:
+            <input
+              type="text"
+              name="productId"
+              value={item.productId}
+              onChange={handleChange}
+            />
+          </label>
+        </div>
+        <div>
+          <label>
+            Anzahl:
+            <input
+              type="number"
+              name="quantity"
+              value={item.quantity}
+              onChange={handleChange}
+            />
+          </label>
+        </div>
+        <div>
+          <label>
+            Zahlungsmethode:
+            <select
+              name="paymentMethod"
+              value={item.paymentMethod}
+              onChange={handleChange}
+            >
+              <option value="bar">Bar</option>
+              <option value="karte">Karte</option>
+            </select>
+          </label>
+        </div>
+        <div>
+          <label>
+            Geschäftstyp:
+            <select
+              name="transactionType"
+              value={item.transactionType}
+              onChange={handleChange}
+            >
+              <option value="Einkauf">Einkauf</option>
+              <option value="Verkauf">Verkauf</option>
+            </select>
+          </label>
+        </div>
+        <button type="submit">Speichern</button>
+      </form>
+    </div>
+  );
+};
+
+export default MyComponent;
