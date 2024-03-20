@@ -1,8 +1,5 @@
 {
-    "id":12242
-    "name":"Kurac im Teig",
-    "price":"2.90",
-    "description":"In Blätterteig eingerollter Kurac",
-    "supplier_id":"1332",
-    "stock": 250
+    "id": 12242,
+    "name": "Kurac im Teig",
+    "price": "2.90"
 }
