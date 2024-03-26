@@ -7,7 +7,7 @@ interface Item {
   quantity: number;
   paymentMethod: "Bar" | "Karte" | "Rechnung";
   transactionType: "Verkauf";
-  paymentDue?: string; 
+  paymentDue?: string;
 }
 
 const MyComponent: React.FC = () => {
@@ -245,7 +245,7 @@ const MyComponent: React.FC = () => {
               </label>
             </div>
             <button type="submit" className="button">
-             Speichern
+              Speichern
             </button>
             <button onClick={handleCancelEdit} className="button">
               Abbrechen
@@ -256,7 +256,6 @@ const MyComponent: React.FC = () => {
     </div>
   );
 };
-
 
 const handleSubmit = async (e: React.FormEvent) => {
   e.preventDefault();
