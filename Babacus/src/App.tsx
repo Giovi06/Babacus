@@ -263,7 +263,7 @@ const handleSubmit = async (e: React.FormEvent) => {
   // Logik für einfügen der Produktinfos
 
   try {
-    const response = await fetch("https://babacus.com/api/products", {
+    const response = await fetch("https://babacus/api/products", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
