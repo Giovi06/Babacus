@@ -29,7 +29,7 @@ const MyComponent: React.FC = () => {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (editingIndex !== null) {
       const updatedProducts = [...products];
@@ -39,6 +39,35 @@ const MyComponent: React.FC = () => {
     } else {
       setProducts([...products, product]);
     }
+
+    // Prepare the data to be sent in the POST request
+    const data = {
+      boughtProductsList: [product],
+      payment: {
+        method: "SomeMethod", // Change this to your actual payment method
+        Amount: "SomeAmount", // Change this to the actual amount
+      },
+    };
+
+    try {
+      const response = await fetch("base Url/product/boughtproducts", {
+        //UrL muss geändert werden.
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (response.ok) {
+        console.log("Product added successfully!");
+      } else {
+        console.error("Failed to add product!");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
+
     setProduct({
       name: "",
       price: 0,
@@ -55,6 +84,54 @@ const MyComponent: React.FC = () => {
   const handleEdit = (index: number) => {
     setProduct(products[index]);
     setEditingIndex(index);
+  };
+
+  const handleUpdate = async () => {
+    if (editingIndex !== null) {
+      try {
+        const response = await fetch(`baseURL/product/updateinfo`, {
+          method: "PUT",
+          headers: {
+            //merke muss no eindeutige id verwenden so nicht so ideal.
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ index: editingIndex, product }),
+        });
+
+        if (response.ok) {
+          console.log("Product updated successfully!");
+          const updatedProducts = [...products];
+          updatedProducts[editingIndex] = product;
+          setProducts(updatedProducts);
+          setEditingIndex(null);
+        } else {
+          console.error("Failed to update product!");
+        }
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    } else {
+      console.error("No product selected for editing!");
+    }
+  };
+
+  const Delete = async (productId: string) => {
+    try {
+      const response = await fetch(`baseURL/product/${productId}`, {
+        method: "DELETE",
+      });
+
+      if (response.ok) {
+        console.log("Product deleted successfully!");
+        setProducts((prevProducts) =>
+          prevProducts.filter((product) => product.id !== productId)
+        ); //Id für jedes element
+      } else {
+        console.error("Failed to delete product!");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
   };
 
   return (
