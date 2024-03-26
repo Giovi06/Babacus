@@ -1,205 +1,140 @@
 import React, { useState } from "react";
 
-interface Item {
-  id: number;
-  productId: string;
+interface Product {
+  name: string;
+  price: number;
+  description: string;
+  supplier_id: string;
   quantity: number;
-  paymentMethod: "Bar" | "Karte" | "Rechnung";
-  transactionType: "Einkauf" | "Verkauf";
 }
 
 const MyComponent: React.FC = () => {
-  const [item, setItem] = useState<Item>({
-    id: 1, // Initial ID
-    productId: "",
+  const [product, setProduct] = useState<Product>({
+    name: "",
+    price: 0,
+    description: "",
+    supplier_id: "",
     quantity: 0,
-    paymentMethod: "Bar",
-    transactionType: "Einkauf",
   });
-  const [items, setItems] = useState<Item[]>([]);
-  const [editingItem, setEditingItem] = useState<Item | null>(null);
+  const [products, setProducts] = useState<Product[]>([]);
+  const [editingIndex, setEditingIndex] = useState<number | null>(null);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const { name, value } = e.target;
-    setItem((prevItem) => ({
-      ...prevItem,
+    setProduct((prevProduct) => ({
+      ...prevProduct,
       [name]: value,
     }));
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setItems([...items, { ...item, id: Date.now() }]);
-    setItem({
-      id: 1, // Resetting ID after adding an item
-      productId: "",
+    if (editingIndex !== null) {
+      const updatedProducts = [...products];
+      updatedProducts[editingIndex] = product;
+      setProducts(updatedProducts);
+      setEditingIndex(null);
+    } else {
+      setProducts([...products, product]);
+    }
+    setProduct({
+      name: "",
+      price: 0,
+      description: "",
+      supplier_id: "",
       quantity: 0,
-      paymentMethod: "Bar",
-      transactionType: "Einkauf",
     });
   };
 
-  const handleDelete = (id: number) => {
-    setItems(items.filter((item) => item.id !== id));
+  const handleDelete = (index: number) => {
+    setProducts((prevProducts) => prevProducts.filter((_, i) => i !== index));
   };
 
-  const handleEdit = (editItem: Item) => {
-    setEditingItem(editItem);
-  };
-
-  const handleUpdate = (e: React.FormEvent) => {
-    e.preventDefault();
-    setItems(
-      items.map((existingItem) =>
-        existingItem.id === editingItem!.id ? editingItem! : existingItem
-      )
-    );
-    setEditingItem(null);
-  };
-
-  const handleEditChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => {
-    const { name, value } = e.target;
-    setEditingItem((prevItem) => ({
-      ...prevItem!,
-      [name]: value,
-    }));
-  };
-
-  const handleCancelEdit = () => {
-    setEditingItem(null);
+  const handleEdit = (index: number) => {
+    setProduct(products[index]);
+    setEditingIndex(index);
   };
 
   return (
     <div>
-      <h1>Meine Anwendung</h1>
+      <h1>Produkte kaufen</h1>
       <form onSubmit={handleSubmit}>
         <div>
           <label>
-            Produkt ID:
+            Produktname:
             <input
               type="text"
-              name="productId"
-              value={item.productId}
+              name="name"
+              value={product.name}
               onChange={handleChange}
             />
           </label>
         </div>
         <div>
           <label>
-            Anzahl:
+            Preis:
+            <input
+              type="number"
+              name="price"
+              value={product.price}
+              onChange={handleChange}
+            />
+          </label>
+        </div>
+        <div>
+          <label>
+            Beschreibung:
+            <input
+              type="text"
+              name="description"
+              value={product.description}
+              onChange={handleChange}
+            />
+          </label>
+        </div>
+        <div>
+          <label>
+            Lieferanten ID:
+            <input
+              type="text"
+              name="supplier_id"
+              value={product.supplier_id}
+              onChange={handleChange}
+            />
+          </label>
+        </div>
+        <div>
+          <label>
+            Menge:
             <input
               type="number"
               name="quantity"
-              value={item.quantity}
+              value={product.quantity}
               onChange={handleChange}
             />
           </label>
         </div>
-        <div>
-          <label>
-            Zahlungsmethode:
-            <select
-              name="paymentMethod"
-              value={item.paymentMethod}
-              onChange={handleChange}
-            >
-              <option value="Bar">Bar</option>
-              <option value="Karte">Karte</option>
-              <option value="Rechnung">Rechnung</option>
-            </select>
-          </label>
-        </div>
-        <div>
-          <label>
-            Geschäftstyp:
-            <select
-              name="transactionType"
-              value={item.transactionType}
-              onChange={handleChange}
-            >
-              <option value="Einkauf">Einkauf</option>
-              <option value="Verkauf">Verkauf</option>
-            </select>
-          </label>
-        </div>
-        <button type="submit">Speichern</button>
+        <button type="submit">
+          {editingIndex !== null ? "Aktualisieren" : "Produkt hinzufügen"}
+        </button>
       </form>
       <div>
-        <h2>Gespeicherte Items</h2>
+        <h2>Gekaufte Produkte</h2>
         <ul>
-          {items.map((item) => (
-            <li key={item.id}>
-              Produkt ID: {item.productId}, Anzahl: {item.quantity},{" "}
-              Zahlungsmethode: {item.paymentMethod}, Geschäftstyp:{" "}
-              {item.transactionType}{" "}
-              <button onClick={() => handleEdit(item)}>Bearbeiten</button>{" "}
-              <button onClick={() => handleDelete(item.id)}>Löschen</button>
+          {products.map((product, index) => (
+            <li key={index}>
+              <strong>Name:</strong> {product.name}, <strong>Preis:</strong>{" "}
+              {product.price}, <strong>Beschreibung:</strong>{" "}
+              {product.description}, <strong>Lieferanten ID:</strong>{" "}
+              {product.supplier_id}, <strong>Menge:</strong> {product.quantity}
+              <button onClick={() => handleEdit(index)}>Bearbeiten</button>
+              <button onClick={() => handleDelete(index)}>Löschen</button>
             </li>
           ))}
         </ul>
       </div>
-      {editingItem && (
-        <div>
-          <h2>Bearbeite Item</h2>
-          <form onSubmit={handleUpdate}>
-            <div>
-              <label>
-                Produkt ID:
-                <input
-                  type="text"
-                  name="productId"
-                  value={editingItem.productId}
-                  onChange={handleEditChange}
-                />
-              </label>
-            </div>
-            <div>
-              <label>
-                Anzahl:
-                <input
-                  type="number"
-                  name="quantity"
-                  value={editingItem.quantity}
-                  onChange={handleEditChange}
-                />
-              </label>
-            </div>
-            <div>
-              <label>
-                Zahlungsmethode:
-                <select
-                  name="paymentMethod"
-                  value={editingItem.paymentMethod}
-                  onChange={handleEditChange}
-                >
-                  <option value="Bar">Bar</option>
-                  <option value="Karte">Karte</option>
-                  <option value="Rechnung">Rechnung</option>
-                </select>
-              </label>
-            </div>
-            <div>
-              <label>
-                Geschäftstyp:
-                <select
-                  name="transactionType"
-                  value={editingItem.transactionType}
-                  onChange={handleEditChange}
-                >
-                  <option value="Einkauf">Einkauf</option>
-                  <option value="Verkauf">Verkauf</option>
-                </select>
-              </label>
-            </div>
-            <button type="submit">Aktualisieren</button>
-            <button onClick={handleCancelEdit}>Abbrechen</button>
-          </form>
-        </div>
-      )}
     </div>
   );
 };
