@@ -1,11 +1,13 @@
 import React, { useState } from "react";
+import './App.css';
+
 
 interface Item {
   id: number;
   productId: string;
   quantity: number;
   paymentMethod: "Bar" | "Karte" | "Rechnung";
-  transactionType: "Einkauf" | "Verkauf";
+  transactionType:  "Verkauf";
 }
 
 const MyComponent: React.FC = () => {
@@ -14,7 +16,7 @@ const MyComponent: React.FC = () => {
     productId: "",
     quantity: 0,
     paymentMethod: "Bar",
-    transactionType: "Einkauf",
+    transactionType: "Verkauf",
   });
   const [items, setItems] = useState<Item[]>([]);
   const [editingItem, setEditingItem] = useState<Item | null>(null);
@@ -33,11 +35,8 @@ const MyComponent: React.FC = () => {
     e.preventDefault();
     setItems([...items, { ...item, id: Date.now() }]);
     setItem({
-      id: 1, // Resetting ID after adding an item
-      productId: "",
-      quantity: 0,
-      paymentMethod: "Bar",
-      transactionType: "Einkauf",
+      ...item, // Keep other properties unchanged
+      id: Date.now(), // Generate a new ID
     });
   };
 
@@ -75,7 +74,7 @@ const MyComponent: React.FC = () => {
 
   return (
     <div>
-      <h1>Meine Anwendung</h1>
+      <h1>Verkauf</h1>
       <form onSubmit={handleSubmit}>
         <div>
           <label>
@@ -113,19 +112,6 @@ const MyComponent: React.FC = () => {
             </select>
           </label>
         </div>
-        <div>
-          <label>
-            Geschäftstyp:
-            <select
-              name="transactionType"
-              value={item.transactionType}
-              onChange={handleChange}
-            >
-              <option value="Einkauf">Einkauf</option>
-              <option value="Verkauf">Verkauf</option>
-            </select>
-          </label>
-        </div>
         <button type="submit">Speichern</button>
       </form>
       <div>
@@ -154,6 +140,7 @@ const MyComponent: React.FC = () => {
                   name="productId"
                   value={editingItem.productId}
                   onChange={handleEditChange}
+                  disabled // Disable editing of productId
                 />
               </label>
             </div>
@@ -190,7 +177,6 @@ const MyComponent: React.FC = () => {
                   value={editingItem.transactionType}
                   onChange={handleEditChange}
                 >
-                  <option value="Einkauf">Einkauf</option>
                   <option value="Verkauf">Verkauf</option>
                 </select>
               </label>
@@ -202,6 +188,35 @@ const MyComponent: React.FC = () => {
       )}
     </div>
   );
+};
+
+
+
+const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+  // Logik für einfügen der Produktinfos 
+
+  try {
+      const response = await fetch('https://babacus.com/api/products', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+              
+          },
+          body: JSON.stringify(item) 
+      });
+
+      if (response.ok) {
+          console.log('Produkt erfolgreich an das Backend gesendet.');
+          
+      } else {
+          console.error('Fehler beim Senden des Produkts an das Backend.');
+          
+      }
+  } catch (error) {
+      console.error('Fehler beim Senden der Anfrage:', error);
+      
+  }
 };
 
 export default MyComponent;
