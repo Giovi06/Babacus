@@ -7,6 +7,7 @@ interface Item {
   quantity: number;
   paymentMethod: "Bar" | "Karte" | "Rechnung";
   transactionType: "Verkauf";
+  paymentDue?: string; 
 }
 
 const MyComponent: React.FC = () => {
@@ -78,6 +79,7 @@ const MyComponent: React.FC = () => {
     <div className="container">
       <h1>Verkauf</h1>
       <form onSubmit={handleSubmit}>
+        {/* Existing form inputs */}
         <div>
           <label className="label">
             Produkt ID:
@@ -117,6 +119,20 @@ const MyComponent: React.FC = () => {
             </select>
           </label>
         </div>
+        {item.paymentMethod === "Rechnung" && (
+          <div>
+            <label className="label">
+              Frist:
+              <input
+                type="text"
+                name="paymentDue"
+                value={item.paymentDue || ""}
+                onChange={handleChange}
+                className="input-field"
+              />
+            </label>
+          </div>
+        )}
         <button type="submit" className="button">
           Speichern
         </button>
@@ -143,6 +159,11 @@ const MyComponent: React.FC = () => {
                   <strong> Geschäftstyp: </strong> {item.transactionType}
                 </span>{" "}
                 <br></br>
+                {item.paymentDue && (
+                  <span>
+                    <strong> Frist: </strong> {item.paymentDue}
+                  </span>
+                )}
               </div>
               <div className="item-actions">
                 <button onClick={() => handleEdit(item)}>Bearbeiten</button>
@@ -196,6 +217,20 @@ const MyComponent: React.FC = () => {
                 </select>
               </label>
             </div>
+            {editingItem.paymentMethod === "Rechnung" && (
+              <div>
+                <label className="label">
+                  Frist:
+                  <input
+                    type="text"
+                    name="paymentDue"
+                    value={editingItem.paymentDue || ""}
+                    onChange={handleEditChange}
+                    className="input-field"
+                  />
+                </label>
+              </div>
+            )}
             <div>
               <label className="label">
                 Geschäftstyp:
@@ -210,7 +245,7 @@ const MyComponent: React.FC = () => {
               </label>
             </div>
             <button type="submit" className="button">
-              Aktualisieren
+             Speichern
             </button>
             <button onClick={handleCancelEdit} className="button">
               Abbrechen
@@ -221,6 +256,7 @@ const MyComponent: React.FC = () => {
     </div>
   );
 };
+
 
 const handleSubmit = async (e: React.FormEvent) => {
   e.preventDefault();
