@@ -1,18 +1,17 @@
 import React, { useState } from "react";
-import './App.css';
-
+import "./App.css";
 
 interface Item {
   id: number;
   productId: string;
   quantity: number;
   paymentMethod: "Bar" | "Karte" | "Rechnung";
-  transactionType:  "Verkauf";
+  transactionType: "Verkauf";
 }
 
 const MyComponent: React.FC = () => {
   const [item, setItem] = useState<Item>({
-    id: 1, // Initial ID
+    id: 1,
     productId: "",
     quantity: 0,
     paymentMethod: "Bar",
@@ -35,8 +34,11 @@ const MyComponent: React.FC = () => {
     e.preventDefault();
     setItems([...items, { ...item, id: Date.now() }]);
     setItem({
-      ...item, // Keep other properties unchanged
-      id: Date.now(), // Generate a new ID
+      id: 1,
+      productId: "",
+      quantity: 0,
+      paymentMethod: "Bar",
+      transactionType: "Verkauf",
     });
   };
 
@@ -73,38 +75,41 @@ const MyComponent: React.FC = () => {
   };
 
   return (
-    <div>
+    <div className="container">
       <h1>Verkauf</h1>
       <form onSubmit={handleSubmit}>
         <div>
-          <label>
+          <label className="label">
             Produkt ID:
             <input
               type="text"
               name="productId"
               value={item.productId}
               onChange={handleChange}
+              className="input-field"
             />
           </label>
         </div>
         <div>
-          <label>
+          <label className="label">
             Anzahl:
             <input
               type="number"
               name="quantity"
               value={item.quantity}
               onChange={handleChange}
+              className="input-field"
             />
           </label>
         </div>
         <div>
-          <label>
+          <label className="label">
             Zahlungsmethode:
             <select
               name="paymentMethod"
               value={item.paymentMethod}
               onChange={handleChange}
+              className="select-field"
             >
               <option value="Bar">Bar</option>
               <option value="Karte">Karte</option>
@@ -112,18 +117,37 @@ const MyComponent: React.FC = () => {
             </select>
           </label>
         </div>
-        <button type="submit">Speichern</button>
+        <button type="submit" className="button">
+          Speichern
+        </button>
       </form>
       <div>
-        <h2>Gespeicherte Items</h2>
-        <ul>
+        <h2 className="section-title">Gespeicherte Items</h2>
+        <ul className="item-list">
           {items.map((item) => (
-            <li key={item.id}>
-              Produkt ID: {item.productId}, Anzahl: {item.quantity},{" "}
-              Zahlungsmethode: {item.paymentMethod}, Geschäftstyp:{" "}
-              {item.transactionType}{" "}
-              <button onClick={() => handleEdit(item)}>Bearbeiten</button>{" "}
-              <button onClick={() => handleDelete(item.id)}>Löschen</button>
+            <li key={item.id} className="item">
+              <div className="item-details">
+                <span>
+                  <strong> Produkt ID: </strong> {item.productId}
+                </span>{" "}
+                <br></br>
+                <span>
+                  <strong> Anzahl: </strong> {item.quantity}
+                </span>{" "}
+                <br></br>
+                <span>
+                  <strong> Zahlungsmethode: </strong> {item.paymentMethod}
+                </span>{" "}
+                <br></br>
+                <span>
+                  <strong> Geschäftstyp: </strong> {item.transactionType}
+                </span>{" "}
+                <br></br>
+              </div>
+              <div className="item-actions">
+                <button onClick={() => handleEdit(item)}>Bearbeiten</button>
+                <button onClick={() => handleDelete(item.id)}>Löschen</button>
+              </div>
             </li>
           ))}
         </ul>
@@ -133,35 +157,38 @@ const MyComponent: React.FC = () => {
           <h2>Bearbeite Item</h2>
           <form onSubmit={handleUpdate}>
             <div>
-              <label>
+              <label className="label">
                 Produkt ID:
                 <input
                   type="text"
                   name="productId"
                   value={editingItem.productId}
                   onChange={handleEditChange}
-                  disabled // Disable editing of productId
+                  className="input-field"
+                  disabled
                 />
               </label>
             </div>
             <div>
-              <label>
+              <label className="label">
                 Anzahl:
                 <input
                   type="number"
                   name="quantity"
                   value={editingItem.quantity}
                   onChange={handleEditChange}
+                  className="input-field"
                 />
               </label>
             </div>
             <div>
-              <label>
+              <label className="label">
                 Zahlungsmethode:
                 <select
                   name="paymentMethod"
                   value={editingItem.paymentMethod}
                   onChange={handleEditChange}
+                  className="select-field"
                 >
                   <option value="Bar">Bar</option>
                   <option value="Karte">Karte</option>
@@ -170,19 +197,24 @@ const MyComponent: React.FC = () => {
               </label>
             </div>
             <div>
-              <label>
+              <label className="label">
                 Geschäftstyp:
                 <select
                   name="transactionType"
                   value={editingItem.transactionType}
                   onChange={handleEditChange}
+                  className="select-field"
                 >
                   <option value="Verkauf">Verkauf</option>
                 </select>
               </label>
             </div>
-            <button type="submit">Aktualisieren</button>
-            <button onClick={handleCancelEdit}>Abbrechen</button>
+            <button type="submit" className="button">
+              Aktualisieren
+            </button>
+            <button onClick={handleCancelEdit} className="button">
+              Abbrechen
+            </button>
           </form>
         </div>
       )}
@@ -190,32 +222,26 @@ const MyComponent: React.FC = () => {
   );
 };
 
-
-
 const handleSubmit = async (e: React.FormEvent) => {
   e.preventDefault();
-  // Logik für einfügen der Produktinfos 
+  // Logik für einfügen der Produktinfos
 
   try {
-      const response = await fetch('https://babacus.com/api/products', {
-          method: 'POST',
-          headers: {
-              'Content-Type': 'application/json',
-              
-          },
-          body: JSON.stringify(item) 
-      });
+    const response = await fetch("https://babacus.com/api/products", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(item),
+    });
 
-      if (response.ok) {
-          console.log('Produkt erfolgreich an das Backend gesendet.');
-          
-      } else {
-          console.error('Fehler beim Senden des Produkts an das Backend.');
-          
-      }
+    if (response.ok) {
+      console.log("Produkt erfolgreich an das Backend gesendet.");
+    } else {
+      console.error("Fehler beim Senden des Produkts an das Backend.");
+    }
   } catch (error) {
-      console.error('Fehler beim Senden der Anfrage:', error);
-      
+    console.error("Fehler beim Senden der Anfrage:", error);
   }
 };
 
