@@ -7,7 +7,6 @@ interface Item {
   quantity: number;
   paymentMethod: "Bar" | "Karte" | "Rechnung";
   amount: number;
-  transactionType: "Verkauf";
   paymentDue?: string;
 }
 
@@ -17,7 +16,6 @@ const MyComponent: React.FC = () => {
     productId: "",
     quantity: 0,
     paymentMethod: "Bar",
-    transactionType: "Verkauf",
     amount: 0,
   });
   const [items, setItems] = useState<Item[]>([]);
@@ -41,7 +39,6 @@ const MyComponent: React.FC = () => {
       productId: "",
       quantity: 0,
       paymentMethod: "Bar",
-      transactionType: "Verkauf",
       amount: 0,
     });
 
@@ -104,7 +101,7 @@ const MyComponent: React.FC = () => {
 
   return (
     <div className="container">
-      <h1>Verkauf</h1>
+      <h1>Produkte Verkaufen</h1>
       <form onSubmit={handleSubmit}>
         {}
         <div>
