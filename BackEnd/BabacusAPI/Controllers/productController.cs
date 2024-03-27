@@ -104,11 +104,10 @@ namespace BabacusAPI.Controllers
                     _context.Products.Update(existingProduct);
                     continue;
                 }
-                else
+                else if (existingProduct == null)
                 {
                     // Create the bought product using the provided data
                     var newBoughtProduct = ProductDTOToNewProduct(boughtProduct);
-                    newBoughtProduct.Stock = boughtProduct.Quantity;
                     _context.Products.Add(newBoughtProduct);
                     continue;
                 }
@@ -266,6 +265,7 @@ namespace BabacusAPI.Controllers
                 Price = p.Price,
                 Description = p.Description,
                 SupplierId = p.SupplierId,
+                Quantity = 0,
                 Stock = p.Stock
             };
         }
@@ -277,7 +277,7 @@ namespace BabacusAPI.Controllers
                 Price = p.Price,
                 Description = p.Description,
                 SupplierId = p.SupplierId,
-                Stock = p.Stock
+                Stock = (int)(p.Stock ?? 1) // Use the null-coalescing operator to provide a default value of 0 when p.Stock is null
             };
 
             return product;

@@ -5,16 +5,10 @@ public class ProductDTO
     public decimal Price { get; set; }
     public string? Description { get; set; }
     public int SupplierId { get; set; }
-    public int Quantity { get; set; }
-    public int Stock
+    public int Quantity
     {
-        get
-        {
-            return this.Quantity;
-        }
-        set
-        {
-            this.Quantity = value;
-        }
+        get { return Quantity; }
+        set { this.Stock += value; }
     }
+    public int? Stock { get; set; }
 }

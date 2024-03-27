@@ -55,6 +55,7 @@ namespace BabacusAPI.Controllers
             var invoice = InvoiceDTOToInvoice(invoiceDTO);
             this._context.Invoices.Add(invoice);
             await this._context.SaveChangesAsync();
+
             return CreatedAtAction(nameof(GetSingleInvoice), new { id = invoice.Id }, InvoiceToInvoiceDTO(invoice));
         }
         [HttpPut]
