@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
 interface Product {
+  id: string;
   name: string;
   price: number;
   description: string;
@@ -10,6 +11,7 @@ interface Product {
 
 const MyComponent: React.FC = () => {
   const [product, setProduct] = useState<Product>({
+    id: "",
     name: "",
     price: 0,
     description: "",
@@ -29,20 +31,28 @@ const MyComponent: React.FC = () => {
     }));
   };
 
+  const generateId = (): string => {
+    return Math.random().toString(36).substr(2, 9);
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    const newProduct: Product = {
+      ...product,
+      id: generateId(),
+    };
     if (editingIndex !== null) {
       const updatedProducts = [...products];
-      updatedProducts[editingIndex] = product;
+      updatedProducts[editingIndex] = newProduct;
       setProducts(updatedProducts);
       setEditingIndex(null);
     } else {
-      setProducts([...products, product]);
+      setProducts([...products, newProduct]);
     }
 
     // Prepare the data to be sent in the POST request
     const data = {
-      boughtProductsList: [product],
+      boughtProductsList: [newProduct],
       payment: {
         method: "SomeMethod", // Change this to your actual payment method
         Amount: "SomeAmount", // Change this to the actual amount
@@ -51,7 +61,6 @@ const MyComponent: React.FC = () => {
 
     try {
       const response = await fetch("base Url/product/boughtproducts", {
-        //UrL muss geändert werden.
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -69,6 +78,7 @@ const MyComponent: React.FC = () => {
     }
 
     setProduct({
+      id: "",
       name: "",
       price: 0,
       description: "",
@@ -77,45 +87,7 @@ const MyComponent: React.FC = () => {
     });
   };
 
-  const handleDelete = (index: number) => {
-    setProducts((prevProducts) => prevProducts.filter((_, i) => i !== index));
-  };
-
-  const handleEdit = (index: number) => {
-    setProduct(products[index]);
-    setEditingIndex(index);
-  };
-
-  const handleUpdate = async () => {
-    if (editingIndex !== null) {
-      try {
-        const response = await fetch(`baseURL/product/updateinfo`, {
-          method: "PUT",
-          headers: {
-            //merke muss no eindeutige id verwenden so nicht so ideal.
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ index: editingIndex, product }),
-        });
-
-        if (response.ok) {
-          console.log("Product updated successfully!");
-          const updatedProducts = [...products];
-          updatedProducts[editingIndex] = product;
-          setProducts(updatedProducts);
-          setEditingIndex(null);
-        } else {
-          console.error("Failed to update product!");
-        }
-      } catch (error) {
-        console.error("Error:", error);
-      }
-    } else {
-      console.error("No product selected for editing!");
-    }
-  };
-
-  const Delete = async (productId: string) => {
+  const handleDelete = async (productId: string) => {
     try {
       const response = await fetch(`baseURL/product/${productId}`, {
         method: "DELETE",
@@ -125,13 +97,18 @@ const MyComponent: React.FC = () => {
         console.log("Product deleted successfully!");
         setProducts((prevProducts) =>
           prevProducts.filter((product) => product.id !== productId)
-        ); //Id für jedes element
+        );
       } else {
         console.error("Failed to delete product!");
       }
     } catch (error) {
       console.error("Error:", error);
     }
+  };
+
+  const handleEdit = (index: number) => {
+    setProduct(products[index]);
+    setEditingIndex(index);
   };
 
   return (
@@ -201,13 +178,13 @@ const MyComponent: React.FC = () => {
         <h2>Gekaufte Produkte</h2>
         <ul>
           {products.map((product, index) => (
-            <li key={index}>
+            <li key={product.id}>
               <strong>Name:</strong> {product.name}, <strong>Preis:</strong>{" "}
               {product.price}, <strong>Beschreibung:</strong>{" "}
               {product.description}, <strong>Lieferanten ID:</strong>{" "}
               {product.supplier_id}, <strong>Menge:</strong> {product.quantity}
               <button onClick={() => handleEdit(index)}>Bearbeiten</button>
-              <button onClick={() => handleDelete(index)}>Löschen</button>
+              <button onClick={() => handleDelete(product.id)}>Löschen</button>
             </li>
           ))}
         </ul>
