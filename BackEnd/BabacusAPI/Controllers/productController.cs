@@ -259,6 +259,8 @@ namespace BabacusAPI.Controllers
             public required string Method { get; set; }
             public required decimal Amount { get; set; }
         }
+
+       
     }
 
 }
