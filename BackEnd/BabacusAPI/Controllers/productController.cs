@@ -31,13 +31,13 @@ namespace BabacusAPI.Controllers
 
         [HttpGet]
         [Route("getsingleproduct")]
-        public async Task<IActionResult> GetProductById(int id)
+        public async Task<IActionResult> GetProductById(int Id)
         {
             if (this._context.Products == null)
             {
                 return this.Problem("Entity set 'Products' is null.");
             }
-            var product = await this._context.Products.FindAsync(id);
+            var product = await this._context.Products.FindAsync(Id);
             if (product == null)
             {
                 return NotFound("Product not found.");
@@ -59,11 +59,11 @@ namespace BabacusAPI.Controllers
             }
             _context.Products.Add(product);
             _context.SaveChanges();
-            return CreatedAtAction(nameof(GetProductById), new { id = product.Id }, product);
+            return CreatedAtAction(nameof(GetProductById), new { Id = product.Id }, product);
         }
         [HttpPost]
         [Route("boughtproduct")]
-        public async Task<IActionResult> BoughtProducts(BoughtProductRequest request)
+        public async Task<IActionResult> BoughtProducts(ProductRequest request)
         {
             if (request == null)
             {
@@ -71,12 +71,12 @@ namespace BabacusAPI.Controllers
             }
 
             // Validate the request body
-            if (request.BoughtProductsList == null || request.BoughtProductsList.Count == 0)
+            if (request.ProductsList == null || request.ProductsList.Count == 0)
             {
                 return BadRequest("BoughtProductsList is empty.");
             }
 
-            foreach (var boughtProduct in request.BoughtProductsList)
+            foreach (var boughtProduct in request.ProductsList)
             {
                 if (string.IsNullOrEmpty(boughtProduct.Name) || boughtProduct.Price <= 0 || boughtProduct.SupplierId <= 0 || boughtProduct.Quantity <= 0)
                 {
@@ -91,7 +91,7 @@ namespace BabacusAPI.Controllers
 
             decimal amount = 0;
             // Process the request and create the bought products
-            foreach (var boughtProduct in request.BoughtProductsList)
+            foreach (var boughtProduct in request.ProductsList)
             {
 
                 var price = boughtProduct.Price * boughtProduct.Quantity;
@@ -122,84 +122,139 @@ namespace BabacusAPI.Controllers
 
             return CreatedAtAction(nameof(GetProductById), new
             {
-                request.BoughtProductsList[0].Id
-            }, request.BoughtProductsList[0]);
+                request.ProductsList[0].Id
+            }, request.ProductsList[0]);
         }
         [HttpPost]
         [Route("soldproducts")]
-        public IActionResult SoldProducts(SoldProductRequest req)
+        public async Task<IActionResult> SoldProducts(ProductRequest request)
+        {
+            // Validate the request body
+            if (request == null)
+            {
+                return BadRequest("Request body is null.");
+            }
+
+            if (request.ProductsList == null || request.ProductsList.Count == 0)
+            {
+                return BadRequest("SoldProductsList is empty.");
+            }
+
+            foreach (var soldProduct in request.ProductsList)
+            {
+                if (soldProduct.Id < 0 || soldProduct.Quantity <= 0)
+                {
+                    return BadRequest("Invalid sold product data.");
+                }
+            }
+
+            if (string.IsNullOrEmpty(request.Payment.Method))
+            {
+                return BadRequest("Payment method is required.");
+            }
+
+            decimal amount = request.Payment.Amount;
+            decimal price = 0;
+
+            // Process the request and update the sold products
+            foreach (var soldProduct in request.ProductsList)
+            {
+                // Find the product by ID
+                var product = _context.Products.FirstOrDefault(p => p.Id == soldProduct.Id);
+                if (product == null)
+                {
+                    return NotFound($"Product with ID {soldProduct.Id} not found.");
+                }
+
+                price = product.Price * soldProduct.Quantity;
+
+                // Update the product stock
+                product.Stock -= soldProduct.Quantity;
+                _context.Products.Update(product);
+
+            }
+            if (price != amount)
+            {
+                return BadRequest($"Invalid payment amount. Check the sold products prices. The total amount: ${price} is not equal to the payment amount: ${amount}.");
+            }
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
+        [HttpPut]
+        [Route("updateinfo")]
+        public async Task<IActionResult> UpdateProductInfo(int Id, ProductDTO req)
         {
             if (req == null)
             {
                 return BadRequest("Request body is null.");
             }
-
-            if (req.SoldProductsList == null || req.SoldProductsList.Count == 0)
+            if (req.Name == null || req.Price <= 0 || req.SupplierId <= 0 || req.Description == null)
             {
-                return BadRequest("SoldProductsList is empty.");
+                return BadRequest("Invalid product data.");
             }
 
-            foreach (var soldProduct in req.SoldProductsList)
-            {
-                if (soldProduct.Id < 0 || soldProduct.Quantity <= 0)
-                {
-                    return BadRequest("Invalid sold product data.\n Product ID and Quantity are required.");
-                }
-
-            }
-
-            if (string.IsNullOrEmpty(req.Payment.Method))
-            {
-                return BadRequest("Payment method is required.");
-            }
-
-            if (req.Payment.Amount <= 0)
-            {
-                return BadRequest("Invalid payment amount.");
-            }
+            var product = _context.Products.FirstOrDefault(p => p.Id == Id);
 
 
-            return CreatedAtAction(nameof(GetProductById), new
-            {
-                req.SoldProductsList[0].id
-            }, req.SoldProductsList[0]);
-
-        }
-
-        [HttpPut("{id}")]
-        public IActionResult UpdateProductInfo(int id, Product updatedProduct)
-        {
-            var product = product.FirstOrDefault(p => p.Id == id);
             if (product == null)
             {
-                return NotFound();
+                return NotFound($"The product with the id: {Id} does not exist.");
             }
-            product.Name = updatedProduct.Name;
-            product.Price = updatedProduct.Price;
-            product.Description = updatedProduct.Description;
-            product.supplierId = updatedProduct.supplierId;
+
+            product.Name = req.Name;
+            product.Price = req.Price;
+            product.Description = req.Description;
+            product.SupplierId = req.SupplierId;
+
+            _context.Products.Update(product);
+            await _context.SaveChangesAsync();
+
             return NoContent();
         }
-        [HttpPut("{id}")]
-        public IActionResult UpdateProductStock(int id, Product updatedProduct)
+        [HttpPut]
+        [Route("updatestock")]
+        public async Task<IActionResult> UpdateProductStock(int Id, ProductDTO req)
         {
-            var product = product.FirstOrDefault(p => p.Id == id);
+            if (req == null)
+            {
+                return BadRequest("Request body is null.");
+            }
+            if (Id < 0)
+            {
+                return BadRequest("Invalid product Id.");
+            }
+            var product = _context.Products.FirstOrDefault(p => p.Id == Id);
             if (product == null)
             {
-                return NotFound();
+                return NotFound($"The product with the id: {Id} does not exist.");
             }
-            product.Stock = updatedProduct.Stock;
+
+            product.Stock += req.Quantity;
+
+            _context.Products.Update(product);
+            await _context.SaveChangesAsync();
+
             return NoContent();
         }
-        [HttpDelete("{id}")]
-        public IActionResult DeleteProduct(int id)
+
+        [HttpDelete]
+        [Route("deleteproduct")]
+        public IActionResult DeleteProduct(int Id)
         {
-            var product = product.FirstOrDefault(p => p.Id == id);
+            if (Id < 0)
+            {
+                return BadRequest("Invalid product Id.");
+            }
+            var product = _context.Products.FirstOrDefault(p => p.Id == Id);
             if (product == null)
             {
-                return NotFound();
+                return NotFound($"The product with the id: {Id} does not exist.");
             }
-            product.Remove(product);
+
+            _context.Products.Remove(product);
+            _context.SaveChanges();
             return NoContent();
         }
         private static ProductDTO ProductToNewProductDTO(Product p)
@@ -244,9 +299,9 @@ namespace BabacusAPI.Controllers
             return null;
         }
 
-        public class BoughtProductRequest
+        public class ProductRequest
         {
-            public required List<ProductDTO> BoughtProductsList { get; set; }
+            public required List<ProductDTO> ProductsList { get; set; }
             public required Payment Payment { get; set; }
         }
         public class SoldProductRequest
@@ -260,7 +315,7 @@ namespace BabacusAPI.Controllers
             public required decimal Amount { get; set; }
         }
 
-       
+
     }
 
 }
