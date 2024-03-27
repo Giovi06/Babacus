@@ -60,10 +60,10 @@ const MyComponent: React.FC = () => {
       BoughtProductsList: [
         {
           name: updatedProduct.name,
-          price: updatedProduct.price.toString(),
+          price: updatedProduct.price,
           description: updatedProduct.description, //Eventuell ist tostring falsch
           supplier_id: updatedProduct.supplier_id,
-          quantity: updatedProduct.quantity.toString(),
+          quantity: updatedProduct.quantity,
         },
       ],
       payment: {
