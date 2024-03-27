@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import "./Einkauf.css";
 
 interface Product {
   id: string;

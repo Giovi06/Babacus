@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./App.css";
+import "./Verkauf.css";
 
 interface Item {
   id: number;
