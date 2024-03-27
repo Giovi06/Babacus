@@ -6,6 +6,7 @@ interface Item {
   productId: string;
   quantity: number;
   paymentMethod: "Bar" | "Karte" | "Rechnung";
+  amount: number;
   transactionType: "Verkauf";
   paymentDue?: string;
 }
@@ -17,6 +18,7 @@ const MyComponent: React.FC = () => {
     quantity: 0,
     paymentMethod: "Bar",
     transactionType: "Verkauf",
+    amount: 0,
   });
   const [items, setItems] = useState<Item[]>([]);
   const [editingItem, setEditingItem] = useState<Item | null>(null);
@@ -40,6 +42,7 @@ const MyComponent: React.FC = () => {
       quantity: 0,
       paymentMethod: "Bar",
       transactionType: "Verkauf",
+      amount: 0,
     });
   };
 
@@ -79,7 +82,7 @@ const MyComponent: React.FC = () => {
     <div className="container">
       <h1>Verkauf</h1>
       <form onSubmit={handleSubmit}>
-        {/* Existing form inputs */}
+        {}
         <div>
           <label className="label">
             Produkt ID:
@@ -94,7 +97,7 @@ const MyComponent: React.FC = () => {
         </div>
         <div>
           <label className="label">
-            Anzahl:
+            Quantität:
             <input
               type="number"
               name="quantity"
@@ -102,6 +105,20 @@ const MyComponent: React.FC = () => {
               onChange={handleChange}
               className="input-field"
             />
+          </label>
+        </div>
+        <div>
+          <label className="label">
+            Menge:
+            <input
+            type = "number"
+            name = "amount"
+            value ={item.amount}
+            onChange={handleChange}
+            className="input-field">
+            </input>
+
+
           </label>
         </div>
         <div>
@@ -120,6 +137,8 @@ const MyComponent: React.FC = () => {
           </label>
         </div>
         {item.paymentMethod === "Rechnung" && (
+          
+          
           <div>
             <label className="label">
               Frist:
@@ -148,7 +167,7 @@ const MyComponent: React.FC = () => {
                 </span>{" "}
                 <br></br>
                 <span>
-                  <strong> Anzahl: </strong> {item.quantity}
+                  <strong> Quantität: </strong> {item.quantity}
                 </span>{" "}
                 <br></br>
                 <span>
@@ -156,7 +175,7 @@ const MyComponent: React.FC = () => {
                 </span>{" "}
                 <br></br>
                 <span>
-                  <strong> Geschäftstyp: </strong> {item.transactionType}
+                <strong> Menge: </strong> {item.amount}
                 </span>{" "}
                 <br></br>
                 {item.paymentDue && (
@@ -164,6 +183,8 @@ const MyComponent: React.FC = () => {
                     <strong> Frist: </strong> {item.paymentDue}
                   </span>
                 )}
+                
+
               </div>
               <div className="item-actions">
                 <button onClick={() => handleEdit(item)}>Bearbeiten</button>
@@ -192,7 +213,7 @@ const MyComponent: React.FC = () => {
             </div>
             <div>
               <label className="label">
-                Anzahl:
+                Quantität:
                 <input
                   type="number"
                   name="quantity"
@@ -233,14 +254,13 @@ const MyComponent: React.FC = () => {
             )}
             <div>
               <label className="label">
-                Geschäftstyp:
+                Menge:
                 <select
-                  name="transactionType"
-                  value={editingItem.transactionType}
+                  name="amount"
+                  value={editingItem.amount}
                   onChange={handleEditChange}
                   className="select-field"
                 >
-                  <option value="Verkauf">Verkauf</option>
                 </select>
               </label>
             </div>
@@ -257,27 +277,27 @@ const MyComponent: React.FC = () => {
   );
 };
 
-const handleSubmit = async (e: React.FormEvent) => {
-  e.preventDefault();
-  // Logik für einfügen der Produktinfos
-
-  try {
-    const response = await fetch("https://babacus/api/products", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(item),
-    });
-
-    if (response.ok) {
-      console.log("Produkt erfolgreich an das Backend gesendet.");
-    } else {
-      console.error("Fehler beim Senden des Produkts an das Backend.");
+fetch('http://localhost:3000/product/soldproducts', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify({
+    "SoldProductsList":[{
+        "Id":"",
+        "quantity":""
+    }],
+    "payment": {
+        "method":"cash/card",
+        "Amount": 12
     }
-  } catch (error) {
-    console.error("Fehler beim Senden der Anfrage:", error);
-  }
-};
-
+  }),
+})
+  .then(response => response.json())
+  .then(data => {
+    console.log('Success:', data);
+  })
+  .catch((error) => {
+    console.error('Error:', error);
+  });
 export default MyComponent;
