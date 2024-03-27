@@ -44,8 +44,32 @@ const MyComponent: React.FC = () => {
       transactionType: "Verkauf",
       amount: 0,
     });
-  };
 
+    // Fetch-Anfrage hier 
+    fetch('base Url/product/soldproducts', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        "SoldProductsList":[{
+            "Id": item.productId,
+            "quantity": item.quantity
+        }],
+        "payment": {
+            "method": item.paymentMethod === "Bar" ? "cash" : "card",
+            "Amount": item.amount
+        }
+      }),
+    })
+      .then(response => response.json())
+      .then(data => {
+        console.log('Success:', data);
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+  };
   const handleDelete = (id: number) => {
     setItems(items.filter((item) => item.id !== id));
   };
@@ -153,7 +177,7 @@ const MyComponent: React.FC = () => {
           </div>
         )}
         <button type="submit" className="button">
-          Speichern
+          Hinzufügen
         </button>
       </form>
       <div>
@@ -277,27 +301,5 @@ const MyComponent: React.FC = () => {
   );
 };
 
-fetch('http://localhost:3000/product/soldproducts', {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json',
-  },
-  body: JSON.stringify({
-    "SoldProductsList":[{
-        "Id":"",
-        "quantity":""
-    }],
-    "payment": {
-        "method":"cash/card",
-        "Amount": 12
-    }
-  }),
-})
-  .then(response => response.json())
-  .then(data => {
-    console.log('Success:', data);
-  })
-  .catch((error) => {
-    console.error('Error:', error);
-  });
+
 export default MyComponent;
