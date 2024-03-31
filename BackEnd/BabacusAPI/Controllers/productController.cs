@@ -22,216 +22,296 @@ namespace BabacusAPI.Controllers
         }
 
         [HttpGet]
+        [Route("getallproducts")]
+        public async Task<ActionResult<IEnumerable<ProductDTO>>> GetAllProducts()
+        {
+            try
+            {
+                if (this._context.Products == null)
+                {
+                    return this.Problem("Entity set 'Products' is null.");
+                }
+                var products = await _context.Products.Select(p => MapProductToDTO(p)).ToListAsync();
+                return Ok(products);
+
+            }
+            catch (Exception ex)
+            {
+                var errorResponse = JsonConvert.SerializeObject(new { error = ex.Message });
+                return this.StatusCode(StatusCodes.Status500InternalServerError, errorResponse);
+            }
+
+        }
+
+        [HttpGet]
         [Route("getsingleproduct")]
         public async Task<IActionResult> GetProductById(int Id)
         {
-            if (this._context.Products == null)
+            try
             {
-                return this.Problem("Entity set 'Products' is null.");
+                if (Id < 0)
+                {
+                    return BadRequest("Invalid product Id.");
+                }
+                if (this._context.Products == null)
+                {
+                    return this.Problem("Entity set 'Products' is null.");
+                }
+                var product = await this._context.Products.FindAsync(Id);
+                if (product == null)
+                {
+                    return NotFound("Product not found.");
+                }
+                return Ok(MapProductToDTO(product));
             }
-            var product = await this._context.Products.FindAsync(Id);
-            if (product == null)
+            catch (Exception ex)
             {
-                return NotFound("Product not found.");
+                var errorResponse = JsonConvert.SerializeObject(new { error = ex.Message });
+                return this.StatusCode(StatusCodes.Status500InternalServerError, errorResponse);
             }
-            return Ok(MapProductToDTO(product));
+
         }
 
         [HttpPost]
         [Route("boughtproduct")]
         public async Task<IActionResult> BoughtProducts(ProductRequest request)
         {
-            if (request == null)
+            try
             {
-                return BadRequest("Request body is null.");
-            }
-
-            // Validate the request body
-            if (request.ProductsList == null || request.ProductsList.Count == 0)
-            {
-                return BadRequest("BoughtProductsList is empty.");
-            }
-
-            foreach (var boughtProduct in request.ProductsList)
-            {
-                if (string.IsNullOrEmpty(boughtProduct.Name) || boughtProduct.Price <= 0 || boughtProduct.SupplierId <= 0 || boughtProduct.Quantity <= 0)
+                if (request == null)
                 {
-                    return BadRequest("Invalid bought product data.");
+                    return BadRequest("Request body is null.");
                 }
-            }
 
-            if (string.IsNullOrEmpty(request.Payment.Method))
-            {
-                return BadRequest("Payment method is required.");
-            }
-
-            decimal amount = 0;
-            // Process the request and create the bought products
-            foreach (var boughtProduct in request.ProductsList)
-            {
-
-                var price = boughtProduct.Price * boughtProduct.Quantity;
-                amount += price;
-                // Check if the product already exists in the database
-                var existingProduct = await CheckIfProductExists(boughtProduct);
-                if (existingProduct != null)
+                // Validate the request body
+                if (request.ProductsList == null || request.ProductsList.Count == 0)
                 {
-                    existingProduct.Stock += boughtProduct.Quantity;
-                    _context.Products.Update(existingProduct);
-                    continue;
+                    return BadRequest("BoughtProductsList is empty.");
                 }
-                else if (existingProduct == null)
+
+                foreach (var boughtProduct in request.ProductsList)
                 {
-                    // Create the bought product using the provided data
-                    var newBoughtProduct = ProductDTOToNewProduct(boughtProduct);
-                    _context.Products.Add(newBoughtProduct);
-                    continue;
+                    if (string.IsNullOrEmpty(boughtProduct.Name) || boughtProduct.Price <= 0 || boughtProduct.SupplierId <= 0 || boughtProduct.Quantity <= 0)
+                    {
+                        return BadRequest("Invalid bought product data.");
+                    }
                 }
-            }
-            if (amount != request.Payment.Amount)
-            {
-                return BadRequest($"Invalid payment amount. Check the bought products prices. The total amount: ${amount} is not equal to the payment amount: ${request.Payment.Amount}.");
-            }
 
-            await _context.SaveChangesAsync();
+                if (string.IsNullOrEmpty(request.Payment.Method))
+                {
+                    return BadRequest("Payment method is required.");
+                }
 
-            return CreatedAtAction(nameof(GetProductById), new
+                decimal amount = 0;
+                // Process the request and create the bought products
+                foreach (var boughtProduct in request.ProductsList)
+                {
+
+                    var price = boughtProduct.Price * boughtProduct.Quantity;
+                    amount += price;
+                    // Check if the product already exists in the database
+                    var existingProduct = await CheckIfProductExists(boughtProduct);
+                    if (existingProduct != null)
+                    {
+                        existingProduct.Stock += boughtProduct.Quantity;
+                        _context.Products.Update(existingProduct);
+                        continue;
+                    }
+                    else if (existingProduct == null)
+                    {
+                        // Create the bought product using the provided data
+                        var newBoughtProduct = ProductDTOToNewProduct(boughtProduct);
+                        _context.Products.Add(newBoughtProduct);
+                        continue;
+                    }
+                }
+                if (amount != request.Payment.Amount)
+                {
+                    return BadRequest($"Invalid payment amount. Check the bought products prices. The total amount: ${amount} is not equal to the payment amount: ${request.Payment.Amount}.");
+                }
+
+                await _context.SaveChangesAsync();
+
+                return CreatedAtAction(nameof(GetProductById), new
+                {
+                    request.ProductsList[0].Id
+                }, request.ProductsList[0]);
+            }
+            catch (Exception ex)
             {
-                request.ProductsList[0].Id
-            }, request.ProductsList[0]);
+                var errorResponse = JsonConvert.SerializeObject(new { error = ex.Message });
+                return this.StatusCode(StatusCodes.Status500InternalServerError, errorResponse);
+            }
         }
         [HttpPost]
         [Route("soldproducts")]
         public async Task<IActionResult> SoldProducts(ProductRequest request)
         {
-            // Validate the request body
-            if (request == null)
+            try
             {
-                return BadRequest("Request body is null.");
-            }
-
-            if (request.ProductsList == null || request.ProductsList.Count == 0)
-            {
-                return BadRequest("SoldProductsList is empty.");
-            }
-
-            foreach (var soldProduct in request.ProductsList)
-            {
-                if (soldProduct.Id < 0 || soldProduct.Quantity <= 0)
+                // Validate the request body
+                if (request == null)
                 {
-                    return BadRequest("Invalid sold product data.");
-                }
-            }
-
-            if (string.IsNullOrEmpty(request.Payment.Method))
-            {
-                return BadRequest("Payment method is required.");
-            }
-
-            decimal amount = request.Payment.Amount;
-            decimal price = 0;
-
-            // Process the request and update the sold products
-            foreach (var soldProduct in request.ProductsList)
-            {
-                // Find the product by ID
-                var product = _context.Products.FirstOrDefault(p => p.Id == soldProduct.Id);
-                if (product == null)
-                {
-                    return NotFound($"Product with ID {soldProduct.Id} not found.");
+                    return BadRequest("Request body is null.");
                 }
 
-                price = product.Price * soldProduct.Quantity;
+                if (request.ProductsList == null || request.ProductsList.Count == 0)
+                {
+                    return BadRequest("SoldProductsList is empty.");
+                }
 
-                // Update the product stock
-                product.Stock -= soldProduct.Quantity;
-                _context.Products.Update(product);
+                foreach (var soldProduct in request.ProductsList)
+                {
+                    if (soldProduct.Id < 0 || soldProduct.Quantity <= 0)
+                    {
+                        return BadRequest("Invalid sold product data.");
+                    }
+                }
 
+                if (string.IsNullOrEmpty(request.Payment.Method))
+                {
+                    return BadRequest("Payment method is required.");
+                }
+
+                decimal amount = request.Payment.Amount;
+                decimal price = 0;
+
+                // Process the request and update the sold products
+                foreach (var soldProduct in request.ProductsList)
+                {
+                    // Find the product by ID
+                    var product = _context.Products.FirstOrDefault(p => p.Id == soldProduct.Id);
+                    if (product == null)
+                    {
+                        return NotFound($"Product with ID {soldProduct.Id} not found.");
+                    }
+
+                    price = product.Price * soldProduct.Quantity;
+
+                    // Update the product stock
+                    product.Stock -= soldProduct.Quantity;
+                    _context.Products.Update(product);
+
+                }
+                if (price != amount)
+                {
+                    return BadRequest($"Invalid payment amount. Check the sold products prices. The total amount: ${price} is not equal to the payment amount: ${amount}.");
+                }
+                await _context.SaveChangesAsync();
+
+                return NoContent();
             }
-            if (price != amount)
+            catch (Exception ex)
             {
-                return BadRequest($"Invalid payment amount. Check the sold products prices. The total amount: ${price} is not equal to the payment amount: ${amount}.");
+                var errorResponse = JsonConvert.SerializeObject(new { error = ex.Message });
+                return this.StatusCode(StatusCodes.Status500InternalServerError, errorResponse);
             }
-            await _context.SaveChangesAsync();
-
-            return NoContent();
         }
 
         [HttpPut]
         [Route("updateinfo")]
         public async Task<IActionResult> UpdateProductInfo(int Id, ProductDTO req)
         {
-            if (req == null)
+            try
             {
-                return BadRequest("Request body is null.");
+                if (Id < 0)
+                {
+                    return BadRequest("Invalid product Id.");
+                }
+                if (req == null)
+                {
+                    return BadRequest("Request body is null.");
+                }
+                if (req.Name == null || req.Price <= 0 || req.SupplierId <= 0 || req.Description == null)
+                {
+                    return BadRequest("Invalid product data.");
+                }
+
+                var product = _context.Products.FirstOrDefault(p => p.Id == Id);
+
+
+                if (product == null)
+                {
+                    return NotFound($"The product with the id: {Id} does not exist.");
+                }
+
+                product.Name = req.Name;
+                product.Price = req.Price;
+                product.Description = req.Description;
+                product.SupplierId = req.SupplierId;
+
+                _context.Products.Update(product);
+                await _context.SaveChangesAsync();
+
+                return NoContent();
             }
-            if (req.Name == null || req.Price <= 0 || req.SupplierId <= 0 || req.Description == null)
+            catch (Exception ex)
             {
-                return BadRequest("Invalid product data.");
+                var errorResponse = JsonConvert.SerializeObject(new { error = ex.Message });
+                return this.StatusCode(StatusCodes.Status500InternalServerError, errorResponse);
             }
 
-            var product = _context.Products.FirstOrDefault(p => p.Id == Id);
-
-
-            if (product == null)
-            {
-                return NotFound($"The product with the id: {Id} does not exist.");
-            }
-
-            product.Name = req.Name;
-            product.Price = req.Price;
-            product.Description = req.Description;
-            product.SupplierId = req.SupplierId;
-
-            _context.Products.Update(product);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
         }
         [HttpPut]
         [Route("updatestock")]
         public async Task<IActionResult> UpdateProductStock(int Id, ProductDTO req)
         {
-            if (req == null)
+            try
             {
-                return BadRequest("Request body is null.");
+                if (req == null)
+                {
+                    return BadRequest("Request body is null.");
+                }
+                if (Id < 0)
+                {
+                    return BadRequest("Invalid product Id.");
+                }
+                var product = _context.Products.FirstOrDefault(p => p.Id == Id);
+                if (product == null)
+                {
+                    return NotFound($"The product with the id: {Id} does not exist.");
+                }
+
+                product.Stock += req.Quantity;
+
+                _context.Products.Update(product);
+                await _context.SaveChangesAsync();
+
+                return NoContent();
             }
-            if (Id < 0)
+            catch (Exception ex)
             {
-                return BadRequest("Invalid product Id.");
+                var errorResponse = JsonConvert.SerializeObject(new { error = ex.Message });
+                return this.StatusCode(StatusCodes.Status500InternalServerError, errorResponse);
             }
-            var product = _context.Products.FirstOrDefault(p => p.Id == Id);
-            if (product == null)
-            {
-                return NotFound($"The product with the id: {Id} does not exist.");
-            }
-
-            product.Stock += req.Quantity;
-
-            _context.Products.Update(product);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
         }
 
         [HttpDelete]
         [Route("deleteproduct")]
         public IActionResult DeleteProduct(int Id)
-
         {
-            if (Id < 0)
+            try
             {
-                return BadRequest("Invalid product Id.");
+                if (Id < 0)
+                {
+                    return BadRequest("Invalid product Id.");
+                }
+                var product = _context.Products.FirstOrDefault(p => p.Id == Id);
+                if (product == null)
+                {
+                    return NotFound($"The product with the id: {Id} does not exist.");
+                }
+
+                _context.Products.Remove(product);
+                _context.SaveChanges();
+                return NoContent();
             }
-            var product = _context.Products.FirstOrDefault(p => p.Id == Id);
-            if (product == null)
+            catch (Exception ex)
             {
-                return NotFound($"The product with the id: {Id} does not exist.");
+                var errorResponse = JsonConvert.SerializeObject(new { error = ex.Message });
+                return this.StatusCode(StatusCodes.Status500InternalServerError, errorResponse);
             }
 
-            _context.Products.Remove(product);
-            _context.SaveChanges();
-            return NoContent();
         }
         private static ProductDTO MapProductToDTO(Product p)
         {

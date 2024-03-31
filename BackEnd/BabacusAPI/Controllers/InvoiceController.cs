@@ -19,78 +19,126 @@ namespace BabacusAPI.Controllers
         [Route("getallinvoices")]
         public async Task<ActionResult<IEnumerable<InvoiceDTO>>> GetAllInvoices()
         {
-            var invoices = await this._context.Invoices.Select(x => InvoiceToInvoiceDTO(x)).ToListAsync();
-            return Ok(invoices);
+            try
+            {
+                if (this._context.Invoices == null)
+                {
+                    return this.Problem("Entity set 'Invoices' is null.");
+                }
+                var invoices = await this._context.Invoices.Select(x => InvoiceToInvoiceDTO(x)).ToListAsync();
+                return Ok(invoices);
+            }
+            catch (Exception ex)
+            {
+                var errorResponse = JsonConvert.SerializeObject(new { error = ex.Message });
+                return this.StatusCode(StatusCodes.Status500InternalServerError, errorResponse);
+            }
         }
 
         [HttpGet]
         [Route("getsingleinvoice")]
         public async Task<IActionResult> GetSingleInvoice(int id)
         {
-            if (this._context.Invoices == null)
+            try
             {
-                return this.Problem("Entity set 'Invoices' is null.");
+                if (this._context.Invoices == null)
+                {
+                    return this.Problem("Entity set 'Invoices' is null.");
+                }
+                var invoice = await this._context.Invoices.FindAsync(id);
+                if (invoice == null)
+                {
+                    return NotFound("Invoice not found.");
+                }
+                return Ok(InvoiceToInvoiceDTO(invoice));
             }
-            var invoice = await this._context.Invoices.FindAsync(id);
-            if (invoice == null)
+            catch (Exception ex)
             {
-                return NotFound("Invoice not found.");
+                var errorResponse = JsonConvert.SerializeObject(new { error = ex.Message });
+                return this.StatusCode(StatusCodes.Status500InternalServerError, errorResponse);
             }
-            return Ok(InvoiceToInvoiceDTO(invoice));
         }
 
         [HttpPost]
         [Route("createinvoice")]
         public async Task<IActionResult> CreateInvoice(InvoiceDTO invoiceDTO)
         {
-            if (invoiceDTO == null)
+            try
             {
-                return BadRequest("InvoiceDTO is null.");
-            }
+                if (invoiceDTO == null)
+                {
+                    return BadRequest("InvoiceDTO is null.");
+                }
 
-            if (!(invoiceDTO.DueDate > invoiceDTO.CreatedDate) || !(invoiceDTO.Amount > 0)) // Days till due date should be checked of overdue by negative value
+                if (!(invoiceDTO.DueDate > invoiceDTO.CreatedDate) || !(invoiceDTO.Amount > 0)) // Days till due date should be checked of overdue by negative value
+                {
+                    return BadRequest("Invalid invoice data.");
+                }
+                var invoice = InvoiceDTOToInvoice(invoiceDTO);
+                this._context.Invoices.Add(invoice);
+                await this._context.SaveChangesAsync();
+
+                return CreatedAtAction(nameof(GetSingleInvoice), new { id = invoice.Id }, InvoiceToInvoiceDTO(invoice));
+            }
+            catch (Exception ex)
             {
-                return BadRequest("Invalid invoice data.");
+                var errorResponse = JsonConvert.SerializeObject(new { error = ex.Message });
+                return this.StatusCode(StatusCodes.Status500InternalServerError, errorResponse);
             }
-            var invoice = InvoiceDTOToInvoice(invoiceDTO);
-            this._context.Invoices.Add(invoice);
-            await this._context.SaveChangesAsync();
-
-            return CreatedAtAction(nameof(GetSingleInvoice), new { id = invoice.Id }, InvoiceToInvoiceDTO(invoice));
         }
         [HttpPut]
         [Route("updateinvoice")]
         public async Task<IActionResult> UpdateInvoice(int id, InvoiceDTO invoiceDTO)
         {
-            if (invoiceDTO == null)
+            try
             {
-                return BadRequest("InvoiceDTO is null.");
+                if (invoiceDTO == null)
+                {
+                    return BadRequest("InvoiceDTO is null.");
+                }
+                if (!(invoiceDTO.DueDate > invoiceDTO.CreatedDate) || !(invoiceDTO.Amount > 0))
+                {
+                    return BadRequest("Invalid invoice data.");
+                }
+                var invoice = await this._context.Invoices.FindAsync(id);
+                if (invoice == null)
+                {
+                    return NotFound("Invoice not found.");
+                }
+                invoice = ExistingInvoiceDTOToInvoice(invoice, invoiceDTO);
+                await this._context.SaveChangesAsync();
+                return Ok(InvoiceToInvoiceDTO(invoice));
             }
-            if (!(invoiceDTO.DueDate > invoiceDTO.CreatedDate) || !(invoiceDTO.Amount > 0))
+            catch (Exception ex)
             {
-                return BadRequest("Invalid invoice data.");
+                var errorResponse = JsonConvert.SerializeObject(new { error = ex.Message });
+                return this.StatusCode(StatusCodes.Status500InternalServerError, errorResponse);
             }
-            var invoice = await this._context.Invoices.FindAsync(id);
-            if (invoice == null)
-            {
-                return NotFound("Invoice not found.");
-            }
-            invoice = ExistingInvoiceDTOToInvoice(invoice, invoiceDTO);
-            await this._context.SaveChangesAsync();
-            return Ok(InvoiceToInvoiceDTO(invoice));
         }
         [HttpDelete]
         [Route("deleteinvoice")]
         public async Task<IActionResult> DeleteInvoice(int id)
         {
-            var invoice = await this._context.Invoices.FindAsync(id);
-            if (invoice == null)
+            try
             {
-                return NotFound("Invoice not found.");
+                if (this._context.Invoices == null)
+                {
+                    return this.Problem("Entity set 'Invoices' is null.");
+                }
+                var invoice = await this._context.Invoices.FindAsync(id);
+                if (invoice == null)
+                {
+                    return NotFound("Invoice not found.");
+                }
+                this._context.Invoices.Remove(invoice);
+                await this._context.SaveChangesAsync();
+                return NoContent();
             }
-            this._context.Invoices.Remove(invoice);
-            await this._context.SaveChangesAsync();
-            return NoContent();
+            catch (Exception ex)
+            {
+                var errorResponse = JsonConvert.SerializeObject(new { error = ex.Message });
+                return this.StatusCode(StatusCodes.Status500InternalServerError, errorResponse);
+            }
         }
 
         private static InvoiceDTO InvoiceToInvoiceDTO(Invoice invoice)
