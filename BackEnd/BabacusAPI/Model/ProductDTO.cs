@@ -10,5 +10,5 @@ public class ProductDTO
         get { return Quantity; }
         set { this.Stock += value; }
     }
-    public int? Stock { get; set; }
+    public int Stock { get; set; }
 }
