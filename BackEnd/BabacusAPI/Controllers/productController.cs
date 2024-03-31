@@ -316,29 +316,49 @@ namespace BabacusAPI.Controllers
         }
         private static ProductDTO MapProductToDTO(Product p)
         {
-            return new ProductDTO
+            try
             {
-                Id = p.Id,
-                Name = p.Name,
-                Price = p.Price,
-                Description = p.Description,
-                SupplierId = p.SupplierId,
-                Quantity = 0,
-                Stock = p.Stock
-            };
+                if (p == null)
+                {
+                    throw new ArgumentNullException("Product is null.");
+                }
+                return new ProductDTO
+                {
+                    Id = p.Id,
+                    Name = p.Name,
+                    Price = p.Price,
+                    Description = p.Description,
+                    SupplierId = p.SupplierId,
+                    Quantity = 0,
+                    Stock = p.Stock
+                };
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
         private static Product ProductDTOToNewProduct(ProductDTO p)
         {
-            var product = new Product
+            try
             {
-                Name = p.Name,
-                Price = p.Price,
-                Description = p.Description,
-                SupplierId = p.SupplierId,
-                Stock = p.Stock // Use the null-coalescing operator to provide a default value of 0 when p.Stock is null
-            };
-
-            return product;
+                if (p == null)
+                {
+                    throw new ArgumentNullException("ProductDTO is null.");
+                }
+                return new Product
+                {
+                    Name = p.Name,
+                    Price = p.Price,
+                    Description = p.Description,
+                    SupplierId = p.SupplierId,
+                    Stock = p.Stock
+                };
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
         /// <summary>
@@ -349,12 +369,23 @@ namespace BabacusAPI.Controllers
         /// <returns>Returns a ProductDTO object if the product already exists, otherwise returns null.</returns>
         private async Task<Product?> CheckIfProductExists(ProductDTO productDTO)
         {
-            if (await _context.Products.AnyAsync(p => p.Name == productDTO.Name))
+            try
             {
-                var existingProduct = await _context.Products.FirstAsync(p => p.Name == productDTO.Name);
-                return existingProduct;
+                if (productDTO == null)
+                {
+                    throw new ArgumentNullException("ProductDTO is null.");
+                }
+                if (await _context.Products.AnyAsync(p => p.Name == productDTO.Name))
+                {
+                    var existingProduct = await _context.Products.FirstAsync(p => p.Name == productDTO.Name);
+                    return existingProduct;
+                }
+                return null;
             }
-            return null;
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
         public class ProductRequest

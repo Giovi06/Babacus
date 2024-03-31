@@ -144,43 +144,72 @@ namespace BabacusAPI.Controllers
 
         private static InvoiceDTO InvoiceToInvoiceDTO(Invoice invoice)
         {
-            return new InvoiceDTO
+            try 
             {
-                Id = invoice.Id,
-                CustomerId = invoice.CustomerId,
-                SupplierId = invoice.SupplierId,
-                CreatedDate = invoice.CreatedDate,
-                DueDate = invoice.DueDate,
-                Amount = invoice.Amount,
-                Payed = invoice.Payed
-            };
+                if (invoice == null)
+                {
+                    throw new ArgumentNullException("Invoice is null.");
+                }
+                return new InvoiceDTO
+                {
+                    Id = invoice.Id,
+                    CustomerId = invoice.CustomerId,
+                    SupplierId = invoice.SupplierId,
+                    CreatedDate = invoice.CreatedDate,
+                    DueDate = invoice.DueDate,
+                    Amount = invoice.Amount,
+                    Payed = invoice.Payed
+                };
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error in InvoiceToInvoiceDTO: " + ex.Message);
+            }
         }
         private static Invoice ExistingInvoiceDTOToInvoice(Invoice invoice, InvoiceDTO invoiceDTO)
         {
-            if (invoice == null || invoiceDTO == null)
+            try
             {
-                throw new ArgumentNullException("Invoice or InvoiceDTO is null.");
+                if (invoice == null || invoiceDTO == null)
+                {
+                    throw new ArgumentNullException("Invoice or InvoiceDTO is null.");
+                }
+                invoice.CustomerId = invoiceDTO.CustomerId;
+                invoice.SupplierId = invoiceDTO.SupplierId;
+                invoice.CreatedDate = invoiceDTO.CreatedDate;
+                invoice.DueDate = invoiceDTO.DueDate;
+                invoice.Amount = invoiceDTO.Amount;
+                invoice.Payed = invoiceDTO.Payed;
+                return invoice;
             }
-            invoice.CustomerId = invoiceDTO.CustomerId;
-            invoice.SupplierId = invoiceDTO.SupplierId;
-            invoice.CreatedDate = invoiceDTO.CreatedDate;
-            invoice.DueDate = invoiceDTO.DueDate;
-            invoice.Amount = invoiceDTO.Amount;
-            invoice.Payed = invoiceDTO.Payed;
-            return invoice;
+            catch (Exception ex)
+            {
+                throw new Exception("Error in ExistingInvoiceDTOToInvoice: " + ex.Message);
+            }
 
         }
         private static Invoice InvoiceDTOToInvoice(InvoiceDTO invoiceDTO)
         {
-            return new Invoice
+            try 
             {
-                CustomerId = invoiceDTO.CustomerId,
-                SupplierId = invoiceDTO.SupplierId,
-                CreatedDate = invoiceDTO.CreatedDate,
-                DueDate = invoiceDTO.DueDate,
-                Amount = invoiceDTO.Amount,
-                Payed = invoiceDTO.Payed
-            };
+                if (invoiceDTO == null)
+                {
+                    throw new ArgumentNullException("InvoiceDTO is null.");
+                }
+                return new Invoice
+                {
+                    CustomerId = invoiceDTO.CustomerId,
+                    SupplierId = invoiceDTO.SupplierId,
+                    CreatedDate = invoiceDTO.CreatedDate,
+                    DueDate = invoiceDTO.DueDate,
+                    Amount = invoiceDTO.Amount,
+                    Payed = invoiceDTO.Payed
+                };
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error in InvoiceDTOToInvoice: " + ex.Message);
+            }
         }
     }
 }
