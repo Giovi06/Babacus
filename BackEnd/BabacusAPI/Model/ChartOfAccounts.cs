@@ -29,14 +29,5 @@
         public decimal _6800 { get; set; }
         public decimal _6900 { get; set; }
         public decimal _7000 { get; set; }
-
-
-
-
-
-
-
     }
-
-
 }

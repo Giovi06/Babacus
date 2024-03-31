@@ -144,19 +144,22 @@ namespace BabacusAPI.Controllers
 
         private static InvoiceDTO InvoiceToInvoiceDTO(Invoice invoice)
         {
-            try 
+            try
             {
                 if (invoice == null)
                 {
                     throw new ArgumentNullException("Invoice is null.");
                 }
+                // Calculate DaysTillDueDate
+                int? daysTillDueDate = (int?)(invoice.DueDate - invoice.CreatedDate).TotalDays;
+
                 return new InvoiceDTO
                 {
                     Id = invoice.Id,
                     CustomerId = invoice.CustomerId,
                     SupplierId = invoice.SupplierId,
                     CreatedDate = invoice.CreatedDate,
-                    DueDate = invoice.DueDate,
+                    DaysTillDueDate = daysTillDueDate,
                     Amount = invoice.Amount,
                     Payed = invoice.Payed
                 };
@@ -190,7 +193,7 @@ namespace BabacusAPI.Controllers
         }
         private static Invoice InvoiceDTOToInvoice(InvoiceDTO invoiceDTO)
         {
-            try 
+            try
             {
                 if (invoiceDTO == null)
                 {

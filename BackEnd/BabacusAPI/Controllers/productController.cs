@@ -375,9 +375,9 @@ namespace BabacusAPI.Controllers
                 {
                     throw new ArgumentNullException("ProductDTO is null.");
                 }
-                if (await _context.Products.AnyAsync(p => p.Name == productDTO.Name))
+                var existingProduct = await _context.Products.FirstOrDefaultAsync(p => p.Name == productDTO.Name);
+                if (existingProduct == null)
                 {
-                    var existingProduct = await _context.Products.FirstAsync(p => p.Name == productDTO.Name);
                     return existingProduct;
                 }
                 return null;
