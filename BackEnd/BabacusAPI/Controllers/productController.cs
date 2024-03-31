@@ -24,7 +24,7 @@ namespace BabacusAPI.Controllers
         [Route("getallproducts")]
         public async Task<ActionResult<IEnumerable<ProductDTO>>> GetAllProducts()
         {
-            var products = await _context.Products.Select(p => ProductToNewProductDTO(p)).ToListAsync();
+            var products = await _context.Products.Select(p => MapProductToDTO(p)).ToListAsync();
             return Ok(products);
         }
 
@@ -42,7 +42,7 @@ namespace BabacusAPI.Controllers
             {
                 return NotFound("Product not found.");
             }
-            return Ok(ProductToNewProductDTO(product));
+            return Ok(MapProductToDTO(product));
         }
 
         [HttpPost]
@@ -241,6 +241,7 @@ namespace BabacusAPI.Controllers
         [HttpDelete]
         [Route("deleteproduct")]
         public IActionResult DeleteProduct(int Id)
+            
         {
             if (Id < 0)
             {
@@ -256,7 +257,7 @@ namespace BabacusAPI.Controllers
             _context.SaveChanges();
             return NoContent();
         }
-        private static ProductDTO ProductToNewProductDTO(Product p)
+        private static ProductDTO MapProductToDTO(Product p)
         {
             return new ProductDTO
             {
@@ -277,7 +278,7 @@ namespace BabacusAPI.Controllers
                 Price = p.Price,
                 Description = p.Description,
                 SupplierId = p.SupplierId,
-                Stock = (int)(p.Stock ?? 1) // Use the null-coalescing operator to provide a default value of 0 when p.Stock is null
+                Stock = p.Stock // Use the null-coalescing operator to provide a default value of 0 when p.Stock is null
             };
 
             return product;
