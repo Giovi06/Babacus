@@ -20,14 +20,6 @@ namespace BabacusAPI.Controllers
         {
             this._context = context;
         }
-        [HttpGet]
-        [Route("getallproducts")]
-        public async Task<ActionResult<IEnumerable<ProductDTO>>> GetAllProducts()
-        {
-            var products = await _context.Products.Select(p => ProductToNewProductDTO(p)).ToListAsync();
-            return Ok(products);
-        }
-
 
         [HttpGet]
         [Route("getsingleproduct")]
@@ -45,22 +37,6 @@ namespace BabacusAPI.Controllers
             return Ok(ProductToNewProductDTO(product));
         }
 
-        [HttpPost]
-        [Route("addproduct")]
-        public IActionResult AddProduct(Product product)
-        {
-            if (product == null)
-            {
-                return BadRequest("Product is null.");
-            }
-            if (product.Name == null || product.Price <= 0 || product.Stock < 0)
-            {
-                return BadRequest("Invalid product data.");
-            }
-            _context.Products.Add(product);
-            _context.SaveChanges();
-            return CreatedAtAction(nameof(GetProductById), new { Id = product.Id }, product);
-        }
         [HttpPost]
         [Route("boughtproduct")]
         public async Task<IActionResult> BoughtProducts(ProductRequest request)
