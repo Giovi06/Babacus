@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/Users/giovanni/Dev/Lernatelier/Babacus/BabacusAPI/BabacusAPI.csproj": {}
+    "/Users/giovanni/Dev/Lernatelier/Babacus/BackEnd/BabacusAPI/BabacusAPI.csproj": {}
   },
   "projects": {
-    "/Users/giovanni/Dev/Lernatelier/Babacus/BabacusAPI/BabacusAPI.csproj": {
+    "/Users/giovanni/Dev/Lernatelier/Babacus/BackEnd/BabacusAPI/BabacusAPI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/giovanni/Dev/Lernatelier/Babacus/BabacusAPI/BabacusAPI.csproj",
+        "projectUniqueName": "/Users/giovanni/Dev/Lernatelier/Babacus/BackEnd/BabacusAPI/BabacusAPI.csproj",
         "projectName": "BabacusAPI",
-        "projectPath": "/Users/giovanni/Dev/Lernatelier/Babacus/BabacusAPI/BabacusAPI.csproj",
+        "projectPath": "/Users/giovanni/Dev/Lernatelier/Babacus/BackEnd/BabacusAPI/BabacusAPI.csproj",
         "packagesPath": "/Users/giovanni/.nuget/packages/",
-        "outputPath": "/Users/giovanni/Dev/Lernatelier/Babacus/BabacusAPI/obj/",
+        "outputPath": "/Users/giovanni/Dev/Lernatelier/Babacus/BackEnd/BabacusAPI/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/giovanni/.nuget/NuGet/NuGet.Config"
@@ -45,13 +45,13 @@
           "dependencies": {
             "Microsoft.EntityFrameworkCore.SqlServer": {
               "target": "Package",
-              "version": "[8.0.2, )"
+              "version": "[8.0.3, )"
             },
             "Microsoft.EntityFrameworkCore.Tools": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
               "target": "Package",
-              "version": "[8.0.2, )"
+              "version": "[8.0.3, )"
             },
             "Newtonsoft.Json": {
               "target": "Package",
@@ -65,7 +65,7 @@
             },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
-              "version": "[6.4.0, )"
+              "version": "[6.5.0, )"
             }
           },
           "imports": [

@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("BabacusAPI")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+dc8c8144f8028f8d603dba9468297340bd1ad23d")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+1845d8b802261fcbc4de78bcd62f97b3db932854")]
 [assembly: System.Reflection.AssemblyProductAttribute("BabacusAPI")]
 [assembly: System.Reflection.AssemblyTitleAttribute("BabacusAPI")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

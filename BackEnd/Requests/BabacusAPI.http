@@ -1,0 +1,91 @@
+@BabacusAPI_HostAddress = https://localhost:7033/api
+
+### GetSingleProduct
+GET {{BabacusAPI_HostAddress}}/product/getsingleproduct?id=1
+
+### GetAllProducts
+GET {{BabacusAPI_HostAddress}}/product/getallproducts
+
+### SoldProducts
+POST {{BabacusAPI_HostAddress}}/product/soldproducts
+Content-Type: application/json
+
+{
+    "ProductsList": [
+        {
+            "id": 3,
+            "name": "",
+            "description": "",
+            "quantity": 2
+        }
+    ],
+    "payment": {
+        "method": "cash/card",
+        "amount": 100
+    }
+}
+
+### BoughtProducts
+POST {{BabacusAPI_HostAddress}}/product/boughtproducts
+Content-Type: application/json
+
+{
+    "productsList": [
+        {
+            "id": 1,
+            "name": "Tablet",
+            "price": 500,
+            "description": "Portable tablet device",
+            "supplierId": 104,
+            "quantity": 3,
+            "stock": 15
+        },
+        {
+            "id": 2,
+            "name": "Mouse",
+            "price": 20,
+            "description": "Wireless ergonomic mouse",
+            "supplierId": 105,
+            "quantity": 4,
+            "stock": 25
+        },
+        {
+            "id": 3,
+            "name": "Keyboard",
+            "price": 50,
+            "description": "Mechanical gaming keyboard",
+            "supplierId": 106,
+            "quantity": 2,
+            "stock": 20
+        }
+    ],
+    "payment": {
+        "method": "Bank Transfer",
+        "amount": 1650
+    }
+}
+
+### UpdateInfo
+PUT {{BabacusAPI_HostAddress}}/product/updateinfo?id=1
+Content-Type: application/json
+
+{
+    "Name": "adsfsdf",
+    "Price": 24,
+    "Description": "sdfsdf",
+    "SupplierId": 23
+}
+
+### UpdateStock
+PUT {{BabacusAPI_HostAddress}}/product/updatestock?id=3
+Content-Type: application/json
+
+{
+    "Name": "adsfsdf",
+    "Description": "sdfsdf",
+    "Quantity": 2
+}
+
+### DeleteProduct
+DELETE {{BabacusAPI_HostAddress}}/product/deleteproduct?Id=2
+

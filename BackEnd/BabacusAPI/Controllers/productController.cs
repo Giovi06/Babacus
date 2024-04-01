@@ -342,10 +342,7 @@ namespace BabacusAPI.Controllers
         {
             try
             {
-                if (p == null)
-                {
-                    throw new ArgumentNullException("ProductDTO is null.");
-                }
+                ArgumentNullException.ThrowIfNull(p);
                 return new Product
                 {
                     Name = p.Name,
