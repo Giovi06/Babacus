@@ -13,16 +13,28 @@
 
 ### 1.1 Ihr Projekt
 
-✍️ Beschreiben Sie Ihr Projekt in einem griffigen Satz.
+
+Unser Projekt beinhaltet  eine Webanwendung, die es einem Unternehmen oder Kunden erlaubt, Verkäufe oder Einkäufe in eine Anwendung (Babacus) einzutragen und Bilanzen anzufordern.
 
 ✍️ Erklären Sie genauer in 50 bis 100 Wörtern, was genau Sie in diesem Projekt erreichen möchten, und was Sie dabei zu lernen hoffen.
+
+
 
 ### 1.2 User Stories
 
 | US-№ | Verbindlichkeit | Typ  | Beschreibung                       |
 | ---- | --------------- | ---- | ---------------------------------- |
-| 1    |                 |      | Als ein 🤷‍♂️ möchte ich 🤷‍♂️, damit 🤷‍♂️ |
-| ...  |                 |      |                                    |
+| 1    |  Muss               | Funktional     | Als ein Benutzer möchte ich eine Möglichkeit haben, Verkäufe einzutragen. |
+| 2  | Muss                | Funktional     |  Als Benutzer möchte ich auf Abruf meine Bilanz sehen können.                                 |
+| 3  |  Muss                |  Funktional    |   Als Benutzer möchte ich Einkäufe eintragen können.                                 |
+| 4  | Kann                 | Qualität     |   Als Benutzer möchte ich, dass ich meine Einträge bearbeiten und stornieren kann.                                 |
+| 5  |  Kann               |   Qualität   |   Als Benutzer möchte ich meine Rechnungen verwalten können.                                 |
+| 6  |  Kann               |  Qualität    |  Als Benutzer möchte ich, dass mein Vorrat bei Bedarf erhöht werden kann.                                  |
+| 7  |  Muss               | Funktional     |  Als Benutzer möchte ich, dass ich mein Angebot fortlaufend aktualisieren kann                                  |
+|8|Kann|Qualität|Als Benutzer möchte ich, dass ich simple Analysen bekommen kann.|
+|9|Kann |Qualität|Als Benutzer möchte ich, dass mir mein Vorrat angezeigt werden kann.|
+|10|Muss|Funktional|Als Benutzer möchte ich, dass meine Daten sicher und zuverlässig abgespeichert werden.|
+
 
 ✍️ Jede User Story hat eine ganzzahlige Nummer (1, 2, 3 etc.), eine Verbindlichkeit (Muss oder Kann?), und einen Typ (Funktional, Qualität, Rand). Die User Story selber hat folgende Form: *Als ein 🤷‍♂️ möchte ich 🤷‍♂️, damit 🤷‍♂️*.
 
@@ -46,11 +58,6 @@
 | 1.A  |       |           |              |               |
 | ...  |       |           |              |               |
 
-Total: 
-
-✍️ Die Nummer hat das Format `N.m`, wobei `N` die Nummer der User Story ist, auf die sich das Arbeitspaket bezieht, und `m` von `A` an nach oben buchstabiert. Beispiel: Das dritte Arbeitspaket, das die zweite User Story betrifft, hat also die Nummer `2.C`.
-
-✍️ Ein Arbeitspaket sollte etwa 45' für eine Person in Anspruch nehmen. Die totale Anzahl Arbeitspakete sollte etwa Folgendem entsprechen: `Anzahl R-Sitzungen` ╳ `Anzahl Gruppenmitglieder` ╳ `4`. Wenn Sie also zu dritt an einem Projekt arbeiten, für welches zwei R-Sitzungen geplant sind, sollten Sie auf `2` ╳ `3` ╳`4` = `24` Arbeitspakete kommen. Sollten Sie merken, dass Sie hier nicht genügend Arbeitspakte haben, denken Sie sich weitere "Kann"-User Stories für Kapitel 1.2 aus.
 
 ## 3 Entscheiden
 
