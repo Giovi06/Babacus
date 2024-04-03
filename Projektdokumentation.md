@@ -6,7 +6,7 @@ Babacus
 
 ## Projektbeschreibung:
 
-Eine vereinfachte Buchaltungssoftware.
+Eine vereinfachte Buchaltungssoftware ähnliches Prinzip wie Abacus.
 
 ## Teammitglieder:
 
