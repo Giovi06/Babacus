@@ -25,11 +25,12 @@ Unser Ziel ist es an einem Prototyp zu arbeiten.
 
 ### Sprint Backlog:
 
-| Aufgabe     | Verantwortlicher   | Status   | Geschätzter Aufwand (Stunden) | Tatsächlicher Aufwand (Stunden) |
-| ----------- | ------------------ | -------- | ----------------------------- | ------------------------------- |
-| [User Story 1] | [Mirhan & Lukas] | [Done] | [180']         | [120']         |
-| [User Story 3] | [Lukas & Mirhan] | [In progres] | [60']         | [60']         |
-|[User Story 4]        | [Lukas  & Mirhan              | [In progres]      | [30']                           | [30']                             |
+| Aufgabe        | Verantwortlicher | Status        | Geschätzter Aufwand (Stunden) | Tatsächlicher Aufwand (Stunden) |
+| -------------- | ---------------- | ------------- | ----------------------------- | ------------------------------- |
+| [User Story 1] | [Mirhan & Lukas] | [Done]        | [180']                        | [120']                          |
+| [User Story 3] | [Lukas & Mirhan] | [In progres]  | [60']                         | [60']                           |
+| [User Story 4] | [Lukas & Mirhan] | [In progres]  | [30']                         | [30']                           |
+| [User Story 9] | [Giovanni]       | [In Progress] | [2h]                          | [3h]                            |
 
 ### Sprint Review:
 

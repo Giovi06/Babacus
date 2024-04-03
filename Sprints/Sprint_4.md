@@ -25,11 +25,11 @@ Unser Ziel ist es an einem Prototyp zu arbeiten.
 
 ### Sprint Backlog:
 
-| Aufgabe     | Verantwortlicher   | Status   | Geschätzter Aufwand (Stunden) | Tatsächlicher Aufwand (Stunden) |
-| ----------- | ------------------ | -------- | ----------------------------- | ------------------------------- |
-| [Aufgabe 1] | [Verantwortlicher] | [Status] | [Geschätzter Aufwand]         | [Tatsächlicher Aufwand]         |
-| [Aufgabe 2] | [Verantwortlicher] | [Status] | [Geschätzter Aufwand]         | [Tatsächlicher Aufwand]         |
-| ...         | ...                | ...      | ...                           | ...                             |
+| Aufgabe     | Verantwortlicher   | Status              | Geschätzter Aufwand (Stunden) | Tatsächlicher Aufwand (Stunden) |
+| ----------- | ------------------ | ------------------- | ----------------------------- | ------------------------------- |
+| [US-4]      | [Giovanni]         | [BackEnd Vollendet] | [2-4h]                        | [5h]                            |
+| [Aufgabe 2] | [Verantwortlicher] | [Status]            | [Geschätzter Aufwand]         | [Tatsächlicher Aufwand]         |
+| ...         | ...                | ...                 | ...                           | ...                             |
 
 ### Sprint Review:
 
