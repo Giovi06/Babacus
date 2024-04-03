@@ -18,7 +18,7 @@ Eine vereinfachte Buchaltungssoftware ähnliches Prinzip wie Abacus.
 
 | US-№ | Verbindlichkeit | Typ        | Beschreibung                                                                                              |
 | ---- | --------------- | ---------- | --------------------------------------------------------------------------------------------------------- |
-| 1    | Muss            | Funktional | Als ein Benutzer möchte ich eine Möglichkeit haben, Verkäufe einzutragem, um meine Buchhaltung zu führen. |
+| 1    | Muss            | Funktional | Als ein Benutzer möchte ich eine Möglichkeit haben, Verkäufe einzutragen, um meine Buchhaltung zu führen. |
 | 2    | Muss            | Funktional | Als Benutzer möchte ich auf Abruf meine Bilanz sehen können.                                              |
 | 3    | Muss            | Funktional | Als Benutzer möchte ich Einkäufe eintragen können.                                                        |
 | 4    | Kann            | Qualität   | Als Benutzer möchte ich, dass ich meine Einträge bearbeiten und stornieren kann.                          |
