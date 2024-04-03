@@ -27,44 +27,44 @@ Unser Ziel ist es an einem Prototyp zu arbeiten.
 
 | Aufgabe     | Verantwortlicher   | Status   | Geschätzter Aufwand (Stunden) | Tatsächlicher Aufwand (Stunden) |
 | ----------- | ------------------ | -------- | ----------------------------- | ------------------------------- |
-| [Aufgabe 1] | [Verantwortlicher] | [Status] | [Geschätzter Aufwand]         | [Tatsächlicher Aufwand]         |
-| [Aufgabe 2] | [Verantwortlicher] | [Status] | [Geschätzter Aufwand]         | [Tatsächlicher Aufwand]         |
-| ...         | ...                | ...      | ...                           | ...                             |
+| [User Story 1] | [Mirhan & Lukas] | [Done] | [180']         | [120']         |
+| [User Story 3] | [Lukas & Mirhan] | [In progres] | [60']         | [60']         |
+|[User Story 4]        | [Lukas  & Mirhan              | [In progres]      | [30']                           | [30']                             |
 
 ### Sprint Review:
 
-Datum: [Datum einfügen]
+Datum: [13.03.2024]
 
 #### Erfüllte Anforderungen:
 
-- [Anforderung 1]
+- [User Story 1]
 - [Anforderung 2]
 - ...
 
 #### Nicht erfüllte Anforderungen:
 
-- [Anforderung 1]
-- [Anforderung 2]
+- [User Story 3]
+- [User Story 4]
 - ...
 
 ### Sprint Retrospektive:
 
-Datum: [Datum einfügen]
+Datum: [13.03.2024]
 
 #### Was lief gut?
 
-- [Punkt 1]
+- [Effizientes Arbeiten]
 - [Punkt 2]
 - ...
 
 #### Was könnte verbessert werden?
 
-- [Punkt 1]
+- [Zusammenarbeit via Git]
 - [Punkt 2]
 - ...
 
 ## Nächste Schritte:
 
-- [Nächster Sprinttermin]
-- [Priorisierte Backlog-Elemente für den nächsten Sprint]
+- [20.03.24]
+- [Die Webseite für die Einkäufe fertigstellenen und vielleicht Crud operationen einfügen.]
 - ...
