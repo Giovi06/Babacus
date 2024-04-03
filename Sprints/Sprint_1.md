@@ -28,43 +28,42 @@ Unser Ziel ist es an einem Prototyp zu arbeiten.
 | Aufgabe        | Verantwortlicher      | Status        | Geschätzter Aufwand (Stunden) | Tatsächlicher Aufwand (Stunden) |
 | -------------- | --------------------- | ------------- | ----------------------------- | ------------------------------- |
 | [User Story 1] | [Giovanni & Giuliano] | [In Progress] | [180']                        | [180']                          |
-| [Aufgabe 2]    | [Verantwortlicher]    | [Status]      | [Geschätzter Aufwand]         | [Tatsächlicher Aufwand]         |
+| [User Story 1] | [Lukas & Mirhan]    | [In Progress]      | [180']         | [Tatsächlicher Aufwand]         |
 | ...            | ...                   | ...           | ...                           | ...                             |
 
 ### Sprint Review:
 
-Datum: [Datum einfügen]
+Datum: [06.03.24]
 
 #### Erfüllte Anforderungen:
 
-- [Anforderung 1]
-- [Anforderung 2]
+- 
 - ...
 
 #### Nicht erfüllte Anforderungen:
 
-- [Anforderung 1]
-- [Anforderung 2]
+- User Story 1
+- 
 - ...
 
 ### Sprint Retrospektive:
 
-Datum: [Datum einfügen]
+Datum: [06.03.24]
 
 #### Was lief gut?
 
 - [Initialisierung des Projekts]
-- [Punkt 2]
+- [Start des Projektes]
 - ...
 
 #### Was könnte verbessert werden?
 
 - [Zusammenarbeit mit Git]
-- [Punkt 2]
+- [Kommunikation]
 - ...
 
 ## Nächste Schritte:
 
 - [13.03.24]
 - [Priorisierte Backlog-Elemente für den nächsten Sprint]
-- ...
+- Weiter arbeiten an den Websiten ohne Crud
