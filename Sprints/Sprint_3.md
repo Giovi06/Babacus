@@ -33,7 +33,7 @@ Unser Ziel ist es an einem Prototyp zu arbeiten.
 
 ### Sprint Review:
 
-Datum: [Datum einfügen]
+Datum: 27.03.24
 
 #### Erfüllte Anforderungen:
 
