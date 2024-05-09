@@ -53,14 +53,14 @@ Datum: [Datum einfügen]
 
 #### Was lief gut?
 
-- [Punkt 1]
+- Der Fortschritt im Projekt
 - [Punkt 2]
 - ...
 
 #### Was könnte verbessert werden?
 
-- [Punkt 1]
-- [Punkt 2]
+- Teamkommunikation
+- Arbeit via Git
 - ...
 
 ## Nächste Schritte:
