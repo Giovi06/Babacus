@@ -53,13 +53,13 @@ Datum: [Datum einfügen]
 
 #### Was lief gut?
 
-- [Punkt 1]
-- [Punkt 2]
+- Arbeitsaufteilung
+- Guter Progress
 - ...
 
 #### Was könnte verbessert werden?
 
-- [Punkt 1]
+- Spezifische auswahl der UserStorys
 - [Punkt 2]
 - ...
 
