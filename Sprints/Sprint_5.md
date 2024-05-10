@@ -53,7 +53,7 @@ Datum: [Datum einfügen]
 
 #### Was lief gut?
 
-- [Punkt 1]
+- Teamkommunikation
 - [Punkt 2]
 - ...
 
