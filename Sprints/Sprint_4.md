@@ -27,8 +27,9 @@ Unser Ziel ist es an einem Prototyp zu arbeiten.
 
 | Aufgabe     | Verantwortlicher   | Status              | Geschätzter Aufwand (Stunden) | Tatsächlicher Aufwand (Stunden) |
 | ----------- | ------------------ | ------------------- | ----------------------------- | ------------------------------- |
-| [US-4]      | [Giovanni]         | [BackEnd Vollendet] | [2-4h]                        | [5h]                            |
-| [Aufgabe 2] | [Verantwortlicher] | [Status]            | [Geschätzter Aufwand]         | [Tatsächlicher Aufwand]         |
+| [US-4 (Für die Backend)]      | [Giovanni]         | [BackEnd Vollendet] | [2-4h]                        | [5h]                            |
+| [US 5] | [Mirhan] | [nicht fertig]            | [120 Minuten ]         | [200 Minuten (noch nicht fertig) ]         |
+| [US 4 (für die Frontend)] | [Mirhan] | [ fertig]            | [120 Minuten ]         | [150 Minuten ]         |
 | ...         | ...                | ...                 | ...                           | ...                             |
 
 ### Sprint Review:
@@ -37,13 +38,13 @@ Datum: [Datum einfügen]
 
 #### Erfüllte Anforderungen:
 
-- [Anforderung 1]
+- [US 4]
 - [Anforderung 2]
 - ...
 
 #### Nicht erfüllte Anforderungen:
 
-- [Anforderung 1]
+- [ US 5]
 - [Anforderung 2]
 - ...
 
