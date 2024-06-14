@@ -27,7 +27,7 @@ Unser Ziel ist es an einem Prototyp zu arbeiten.
 
 | Aufgabe     | Verantwortlicher   | Status   | Geschätzter Aufwand (Stunden) | Tatsächlicher Aufwand (Stunden) |
 | ----------- | ------------------ | -------- | ----------------------------- | ------------------------------- |
-| [Aufgabe 1] | [Verantwortlicher] | [Status] | [Geschätzter Aufwand]         | [Tatsächlicher Aufwand]         |
+| [User Story 5 ] | [Mirhan] | [fertig] | [ 150 Minuten]         | [200 Minuten]         |
 | [Aufgabe 2] | [Verantwortlicher] | [Status] | [Geschätzter Aufwand]         | [Tatsächlicher Aufwand]         |
 | ...         | ...                | ...      | ...                           | ...                             |
 
@@ -37,7 +37,7 @@ Datum: [Datum einfügen]
 
 #### Erfüllte Anforderungen:
 
-- [Anforderung 1]
+- [User Story 5]
 - [Anforderung 2]
 - ...
 
