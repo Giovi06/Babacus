@@ -28,7 +28,8 @@ Unser Ziel ist es an einem Prototyp zu arbeiten.
 | Aufgabe     | Verantwortlicher   | Status        | Geschätzter Aufwand (Stunden) | Tatsächlicher Aufwand (Stunden) |
 | ----------- | ------------------ | ------------- | ----------------------------- | ------------------------------- |
 | [US-7]      | [Giovanni]         | [In-Progress] | [3h]                          | [3h]                            |
-| [Aufgabe 2] | [Verantwortlicher] | [Status]      | [Geschätzter Aufwand]         | [Tatsächlicher Aufwand]         |
+| [US 4] | [Mirhan] | [nicht ganz fertig]      | [120 Minuten ]         | [200 Minuten (noch nicht ganz fertig) ]         |
+| ...         | ...                | ...           | ...                           | ...                             |
 | ...         | ...                | ...           | ...                           | ...                             |
 
 ### Sprint Review:
@@ -43,7 +44,7 @@ Datum: 27.03.24
 
 #### Nicht erfüllte Anforderungen:
 
-- [Anforderung 1]
+- [US 5]
 - [Anforderung 2]
 - ...
 
