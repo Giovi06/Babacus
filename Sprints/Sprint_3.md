@@ -36,36 +36,18 @@ Unser Ziel ist es an einem Prototyp zu arbeiten.
 
 Datum: 27.03.24
 
-#### Erfüllte Anforderungen:
-
-- [Anforderung 1]
-- [Anforderung 2]
-- ...
-
 #### Nicht erfüllte Anforderungen:
 
 - [US 5]
-- [Anforderung 2]
-- ...
 
 ### Sprint Retrospektive:
-
-Datum: [Datum einfügen]
 
 #### Was lief gut?
 
 - Der Fortschritt im Projekt
-- [Punkt 2]
-- ...
 
 #### Was könnte verbessert werden?
 
 - Teamkommunikation
 - Arbeit via Git
-- ...
 
-## Nächste Schritte:
-
-- [Nächster Sprinttermin]
-- [Priorisierte Backlog-Elemente für den nächsten Sprint]
-- ...
